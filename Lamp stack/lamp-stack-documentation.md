@@ -4,12 +4,12 @@
 __A LAMP stack is a bundle of four different software technologies that developers use to build websites and web applications. LAMP is an acronym for the operating system, Linux; the web server, Apache; the database server, MySQL; and the programming language, PHP__
 
 ## Step 0: Prerequisites
-__1.__ EC2 Instance of t3.micro type and Ubuntu 26.04 LTS (HVM) was lunched in the eu-north-1 region using the AWS console.__
-__2.__ Created SSH key pair named test to access the instance on port 22__
+__1.__ EC2 Instance of t3.micro type and Ubuntu 26.04 LTS (HVM) was lunched in the eu-north-1 region using the AWS console.
+__2.__ Created SSH key pair named test to access the instance on port 22
 
    ![Lunch Instance](./images/creatingtestone.png)
 
-__3.__ The security group was configured with the following inbound rules:__
+__3.__ The security group was configured with the following inbound rules:
 
 Allow traffic on port 80 (HTTP) with source from anywhere on the internet.
 Allow traffic on port 443 (HTTPS) with source from anywhere on the internet.
@@ -17,11 +17,11 @@ Allow traffic on port 22 (SSH) with source from any IP address. This is opened b
 
  ![Security Rules](./images/inbound-roles.png)
 
-__4.__ The default VPC and Subnet was used for the networking configuration.__
+__4.__ The default VPC and Subnet was used for the networking configuration.
 
 ![Default Network](./images/subnetid.png)
 
-__5.__ The private ssh key that got downloaded was located and then used to connect to the instance by running__
+__5.__ The private ssh key that got downloaded was located and then used to connect to the instance by running
 
 Using windows powershell
 ```
