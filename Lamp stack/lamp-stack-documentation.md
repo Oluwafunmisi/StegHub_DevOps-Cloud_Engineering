@@ -96,7 +96,7 @@ __5.__ __Exit the MySQL shell__
 exit
 ```
 ## Step 3 - Install PHP
-__1.__ __ Install php, PHP is the component of the set up that processes code to display dynamic content to the end user.__
+__1.__ __Install php, PHP is the component of the set up that processes code to display dynamic content to the end user.__
 
 The following would be installed:
 -php package
