@@ -7,8 +7,7 @@ __A LAMP stack is a bundle of four different software technologies that develope
 __1.__ EC2 Instance of t3.micro type and Ubuntu 26.04 LTS (HVM) was lunched in the eu-north-1 region using the AWS console.
 __2.__ Created SSH key pair named test to access the instance on port 22
 
-   ![Lunch Instance](.images/creatingtestone.PNG)
-   Lamp stack/images/creatingtestone.PNG
+   ![Lunch Instance](.Lamp stack/images/creatingtestone.PNG)
 
 __3.__ The security group was configured with the following inbound rules:
 
@@ -74,11 +73,11 @@ http://56.228.34.90
 This shows that the web server is correctly installed and it is accessible through the firewall.
 
 ## Step 2 - Install MySQL
-__1.__ __ Installing a DBMS to store and manage data for the website
+__1.__ __ Installing a DBMS to store and manage data for the website__
 ```
 sudo apt install mysql-server
 ```
-__2.__ __ Log in to mysql console
+__2.__ __ Log in to mysql console__
 ```
 sudo mysql
 ```
@@ -134,11 +133,11 @@ __Assign the directory ownership with $USER environment variable which reference
 ```
 sudo chown -R $USER:$USER /var/www/projectlamp
 ```
-__2.__ Create and open a new configuration file in apache’s “sites-available” directory using vim.__
+__2.__ __ Create and open a new configuration file in apache’s “sites-available” directory using vim.__
 ```
 sudo nano /etc/apache2/sites-available/projectlamp.conf
 ```
-__3.__ Show the new file in sites-available__
+__3.__ __ Show the new file in sites-available__
 ```
 sudo ls /etc/apache2/sites-available
 ```
@@ -149,7 +148,7 @@ Output:
 
 With the VirtualHost configuration, Apache will serve projectlamp using /var/www/projectlamp as its web root directory.
 
-__4.__ Enable the new virtual host__
+__4.__  __Enable the new virtual host__
 ```
 sudo a2ensite projectlamp
 ```
