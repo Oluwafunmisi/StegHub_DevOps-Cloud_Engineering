@@ -38,15 +38,15 @@ __Where username=ubuntu and public ip address=56.228.34.90__
 
 
 ## Step 1 - Install Apache and Update the Firewall
-__1.__ __ Update and upgrade list of packages in package manager__
+__1.__ __Update and upgrade list of packages in package manager__
 ```
 sudo apt update
 ```
-__2.__ __ Install apache__
+__2.__ __Install apache__
 ```
 sudo apt install apache2
 ```
-__3.__ __ Verify that apache is running on as a service on the OS.__
+__3.__ __Verify that apache is running on as a service on the OS.__
 ```
 sudo systemctl enable apache2
 ```
@@ -56,7 +56,7 @@ sudo systemctl status apache2
 If it green and running, then apache2 is correctly installed
 ![Apache Status](./images/loadingapache.png)
 
-__4.__ __ The server is running and can be accessed locally in the ubuntu shell by running the command below:__
+__4.__ __The server is running and can be accessed locally in the ubuntu shell by running the command below:__
 ```
 curl http://localhost:80
 ```
@@ -64,7 +64,7 @@ curl http://localhost:80
 ```
 curl http://127.0.0.1:80
 ```
-__5.__ __ Test with the public IP address if the Apache HTTP server can respond to request from the internet using the url on a browser.__
+__5.__ __Test with the public IP address if the Apache HTTP server can respond to request from the internet using the url on a browser.__
 ```
 http://56.228.34.90
 ```
@@ -73,25 +73,25 @@ http://56.228.34.90
 This shows that the web server is correctly installed and it is accessible through the firewall.
 
 ## Step 2 - Install MySQL
-__1.__ __ Installing a DBMS to store and manage data for the website__
+__1.__ __Installing a DBMS to store and manage data for the website__
 ```
 sudo apt install mysql-server
 ```
-__2.__ __ Log in to mysql console__
+__2.__ __Log in to mysql console__
 ```
 sudo mysql
 ```
-__3.__ __ Set a password for root user using caching_sha2_password as default authentication method.__
+__3.__ __Set a password for root user using caching_sha2_password as default authentication method.__
 
 __Here, the user's password was defined as "PassWord.1"__
 ```
 ALTER USER root@'localhost' IDENTIFIED WITH caching_sha2_password BY 'PassWord.1';
 ```
 
-__4.__ __ Trying sudo mysql again prompted ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO) so I used ```mysql -u root -p``` to force sql to prompt password__
+__4.__ __Trying sudo mysql again prompted ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO) so I used ```mysql -u root -p``` to force sql to prompt password__
 ![Connecting MySQL](./images/connectsql.png)
 
-__5.__ __ Exit the MySQL shell__
+__5.__ __Exit the MySQL shell__
 ```
 exit
 ```
@@ -107,7 +107,7 @@ The following would be installed:
 sudo apt install php libapache2-mod-php php-mysql
 ```
 
-__2.__ Confirm PHP version__
+__2.__  __Confirm PHP version__
 ```
 php -v
 ```
@@ -123,7 +123,7 @@ At this point, your LAMP stack is completely installed and fully functional.
 To test your setup with a PHP script, it’s best to set up a proper Apache Virtual Host to hold your website’s files and folders. Virtual host allows you to have multiple websites located on a single machine and users of the websites will not even notice it.
 
 ## Step 4 - Create a virtual host for the website using Apache
-__1.__  __ The default directory serving the apache default page is /var/www/html. Create your document directory next to the default one.__
+__1.__  __The default directory serving the apache default page is /var/www/html. Create your document directory next to the default one.__
 
 Created the directory for projectlamp using "mkdir" command
 ```
@@ -133,11 +133,11 @@ __Assign the directory ownership with $USER environment variable which reference
 ```
 sudo chown -R $USER:$USER /var/www/projectlamp
 ```
-__2.__  __ Create and open a new configuration file in apache’s “sites-available” directory using vim.__
+__2.__  __Create and open a new configuration file in apache’s “sites-available” directory using vim.__
 ```
 sudo nano /etc/apache2/sites-available/projectlamp.conf
 ```
-__3.__  __ Show the new file in sites-available__
+__3.__  __Show the new file in sites-available__
 ```
 sudo ls /etc/apache2/sites-available
 ```
@@ -153,7 +153,7 @@ __4.__  __Enable the new virtual host__
 sudo a2ensite projectlamp
 ```
 
-__5.__  __ Disable apache’s default website.__
+__5.__  __Disable apache’s default website.__
 
 ![Virtual host configuration](./images/confirmprojectlamp.png)
 
@@ -195,7 +195,7 @@ http://56.228.34.90/
 
 With the default DirectoryIndex setting on Apache, index.html file will always take precedence over index.php file. This is useful for setting up maintenance page in PHP applications, by creating a temporary index.html file containing an informative message for visitors. The index.html then becomes the landing page for the application. Once maintenance is over, the index.html is renamed or removed from the document root bringing back the regular application page. If the behaviour needs to be changed, /etc/apache2/mods-enabled/dir.conf file should be edited and the order in which the index.php file is listed within the DirectoryIndex directive should be changed.
 
-__1.__ __ Open the dir.conf file with vim to change the behaviour__
+__1.__  __Open the dir.conf file with vim to change the behaviour__
 ```
 sudo vim /etc/apache2/mods-enabled/dir.conf
 ```
@@ -207,14 +207,14 @@ sudo vim /etc/apache2/mods-enabled/dir.conf
   DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
 </IfModule>
 ```
-__2.__ __ Reload Apache__
+__2.__  __Reload Apache__
 
 Apache is reloaded so the changes takes effect.
 
 ```
 sudo systemctl reload apache2
 ```
-__3.__ __ Create a php test script to confirm that Apache is able to handle and process requests for PHP files.__
+__3.__  __Create a php test script to confirm that Apache is able to handle and process requests for PHP files.__
 
 A new index.php file was created inside the custom web root folder.
 ```
