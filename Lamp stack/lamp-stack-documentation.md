@@ -123,7 +123,7 @@ At this point, your LAMP stack is completely installed and fully functional.
 To test your setup with a PHP script, it’s best to set up a proper Apache Virtual Host to hold your website’s files and folders. Virtual host allows you to have multiple websites located on a single machine and users of the websites will not even notice it.
 
 ## Step 4 - Create a virtual host for the website using Apache
-__1.__ __ The default directory serving the apache default page is /var/www/html. Create your document directory next to the default one.__
+__1.__  __ The default directory serving the apache default page is /var/www/html. Create your document directory next to the default one.__
 
 Created the directory for projectlamp using "mkdir" command
 ```
@@ -133,11 +133,11 @@ __Assign the directory ownership with $USER environment variable which reference
 ```
 sudo chown -R $USER:$USER /var/www/projectlamp
 ```
-__2.__ __ Create and open a new configuration file in apache’s “sites-available” directory using vim.__
+__2.__  __ Create and open a new configuration file in apache’s “sites-available” directory using vim.__
 ```
 sudo nano /etc/apache2/sites-available/projectlamp.conf
 ```
-__3.__ __ Show the new file in sites-available__
+__3.__  __ Show the new file in sites-available__
 ```
 sudo ls /etc/apache2/sites-available
 ```
@@ -153,7 +153,7 @@ __4.__  __Enable the new virtual host__
 sudo a2ensite projectlamp
 ```
 
-__5.__ __ Disable apache’s default website.__
+__5.__  __ Disable apache’s default website.__
 
 ![Virtual host configuration](./images/confirmprojectlamp.png)
 
