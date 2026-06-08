@@ -20,6 +20,7 @@ Allow traffic on port 22 (SSH) with source from any IP address. This is opened b
 __4.__ The default VPC and Subnet was used for the networking configuration.
 
  <img src="./images/subnetid.PNG" alt="Default Network">
+  <img src="./images/publicandprivateip.PNG" alt="IP address">
 
 __5.__ The private ssh key that got downloaded was located and then used to connect to the instance by running
 
@@ -120,7 +121,7 @@ At this point, your LAMP stack is completely installed and fully functional.
 [x] MySQL
 [x] PHP
 
-To test your setup with a PHP script, it’s best to set up a proper Apache Virtual Host to hold your website’s files and folders. Virtual host allows you to have multiple websites located on a single machine and users of the websites will not even notice it.
+To test your setup with a PHP script, an Apache Virtual Host to hold your website’s data will be set up. A virtual host lets you run multiple websites on a single physical server.
 
 ## Step 4 - Create a virtual host for the website using Apache
 __1.__  __The default directory serving the apache default page is /var/www/html. Create your document directory next to the default one.__
@@ -229,7 +230,7 @@ phpinfo();
 ```
  <img src="./images/phpindexcode.PNG" alt="php text">
 
-This page provides information about the server from the perspective of PHP. It is useful for debugging and to ensure the settings are being applied correctly.
+The above code snippet is the standard built-in function used to output diagnostic data regarding your server's current PHP environment, loaded modules, and configuration statesy.
 
 After checking the relevant information about the server through this page, It’s best to remove the file created as it contains sensitive information about the PHP environment and the ubuntu server. It can always be recreated if the information is needed later.
 ```
