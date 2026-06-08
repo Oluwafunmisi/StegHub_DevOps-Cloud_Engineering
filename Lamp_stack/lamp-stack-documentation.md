@@ -15,11 +15,11 @@ Allow traffic on port 80 (HTTP) with source from anywhere on the internet.
 Allow traffic on port 443 (HTTPS) with source from anywhere on the internet.
 Allow traffic on port 22 (SSH) with source from any IP address. This is opened by default.
 
-  <img src="./images/inbound-roles.PNG" alt="Security Rules">
+  <img src="./images/inboundroles.PNG" alt="Security Rules">
 
 __4.__ The default VPC and Subnet was used for the networking configuration.
 
-![Default Network](./images/subnetid.png)
+ <img src="./images/subnetid.PNG" alt="Default Network">
 
 __5.__ The private ssh key that got downloaded was located and then used to connect to the instance by running
 
@@ -32,8 +32,7 @@ ssh -i test.pem ubuntu@56.228.34.90
 ```
 __Where username=ubuntu and public ip address=56.228.34.90__
 
-![Connect to instance](./images/connectingssh.png)
-
+ <img src="./images/connectingssh.PNG" alt="Connect to instance">
 
 
 
@@ -54,7 +53,8 @@ sudo systemctl enable apache2
 sudo systemctl status apache2
 ```
 If it green and running, then apache2 is correctly installed
-![Apache Status](./images/loadingapache.png)
+ <img src="./images/loadingapache.PNG" alt="Apache status">
+
 
 __4.__ __The server is running and can be accessed locally in the ubuntu shell by running the command below:__
 ```
@@ -68,7 +68,7 @@ __5.__ __Test with the public IP address if the Apache HTTP server can respond t
 ```
 http://56.228.34.90
 ```
-![Apache Default Page](./images/ubuntuwebsite.jpeg)
+ <img src="./images/ubuntuwebsite.jpeg" alt="Apache page">
 
 This shows that the web server is correctly installed and it is accessible through the firewall.
 
@@ -89,7 +89,7 @@ ALTER USER root@'localhost' IDENTIFIED WITH caching_sha2_password BY 'PassWord.1
 ```
 
 __4.__ __Trying sudo mysql again prompted ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO) so I used ```mysql -u root -p``` to force sql to prompt password__
-![Connecting MySQL](./images/connectsql.png)
+ <img src="./images/connectsql.PNG" alt="Connecting mysql">
 
 __5.__ __Exit the MySQL shell__
 ```
@@ -111,7 +111,7 @@ __2.__  __Confirm PHP version__
 ```
 php -v
 ```
-![Confirm php version](./images/phpversion.png)
+ <img src="./images/phpversion.PNG" alt="PHP version">
 
 At this point, your LAMP stack is completely installed and fully functional.
 
@@ -144,7 +144,7 @@ sudo ls /etc/apache2/sites-available
 Output:
 000-default.conf default-ssl.conf projectlamp.conf
 
-![Output](./images/projectlampfile.png)
+ <img src="./images/projectlampfile.PNG" alt="Output">
 
 With the VirtualHost configuration, Apache will serve projectlamp using /var/www/projectlamp as its web root directory.
 
@@ -155,7 +155,7 @@ sudo a2ensite projectlamp
 
 __5.__  __Disable apache’s default website.__
 
-![Virtual host configuration](./images/confirmprojectlamp.png)
+ <img src="./images/confirmprojectlamp.PNG" alt="Virtual host config">
 
 This is because Apache’s default configuration will overwrite the virtual host if not disabled. This is required if a custom domain is not being used.
 ```
@@ -166,7 +166,7 @@ __6.__  __Reload apache for changes to take effect.__
 ```
 sudo systemctl reload apache2
 ```
-![Projectlamp](./images/phpprojectlamp.png)
+ <img src="./images/phpprojectlamp.PNG" alt="Project lamp">
 
 __7.__ __ The new website is now active but the web root /var/www/projectlamp is still empty. Create an index.html file in this location so to test the virtual host work as expected.__
 ```
@@ -185,12 +185,14 @@ paste inside
 
 </body></html>
 ```
-![Projectlamp html](./images/projectlamphtml.png)
+ <img src="./images/projectlamphtml.PNG" alt="Project lamp html">
 
 __Open the website on a browser using the public IP address.__
 ```
 http://56.228.34.90/
 ```
+ <img src="./images/projectlampsite.PNG" alt="Projectlampsite">
+ 
 ## Step 5 - Enable PHP on the website
 
 With the default DirectoryIndex setting on Apache, index.html file will always take precedence over index.php file. This is useful for setting up maintenance page in PHP applications, by creating a temporary index.html file containing an informative message for visitors. The index.html then becomes the landing page for the application. Once maintenance is over, the index.html is renamed or removed from the document root bringing back the regular application page. If the behaviour needs to be changed, /etc/apache2/mods-enabled/dir.conf file should be edited and the order in which the index.php file is listed within the DirectoryIndex directive should be changed.
@@ -225,7 +227,7 @@ Add the text below in the index.php file
 <?php
 phpinfo();
 ```
-![php text](./images/phpindexcode.png)
+ <img src="./images/phpindexcode.PNG" alt="php text">
 
 This page provides information about the server from the perspective of PHP. It is useful for debugging and to ensure the settings are being applied correctly.
 
@@ -233,7 +235,7 @@ After checking the relevant information about the server through this page, It�
 ```
 sudo rm /var/www/projectlamp/index.php
 ```
-![php error](./images/phperror.png)
+ <img src="./images/phperror.PNG" alt="Php error">
 
 __Conclusion:__
 
