@@ -7,7 +7,7 @@ __A LAMP stack is a bundle of four different software technologies that develope
 __1.__ EC2 Instance of t3.micro type and Ubuntu 26.04 LTS (HVM) was lunched in the eu-north-1 region using the AWS console.
 __2.__ Created SSH key pair named test to access the instance on port 22
 
-   ![Lunch Instance](creatingtest-one.png)
+   ![Lunch Instance](creatingtestone.png)
 
 __3.__ The security group was configured with the following inbound rules:
 
