@@ -20,7 +20,7 @@ Allow traffic on port 22 (SSH) with source from any IP address. This is opened b
 __4.__ The default VPC and Subnet was used for the networking configuration.
 
  <img src="./images/subnetid.PNG" alt="Default Network">
-  <img src="./images/publicandprivateip.PNG" alt="IP address">
+  <img src="./images/publicandpriviteip.PNG" alt="IP address">
 
 __5.__ The private ssh key that got downloaded was located and then used to connect to the instance by running
 
