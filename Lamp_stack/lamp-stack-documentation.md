@@ -15,7 +15,7 @@ Allow traffic on port 80 (HTTP) with source from anywhere on the internet.
 Allow traffic on port 443 (HTTPS) with source from anywhere on the internet.
 Allow traffic on port 22 (SSH) with source from any IP address. This is opened by default.
 
- ![Security Rules](Lamp_stack/images/inbound-roles.png)
+  <img src="./images/inbound-roles.PNG" alt="Security Rules">
 
 __4.__ The default VPC and Subnet was used for the networking configuration.
 
