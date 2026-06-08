@@ -7,7 +7,7 @@ __A LAMP stack is a bundle of four different software technologies that develope
 __1.__ EC2 Instance of t3.micro type and Ubuntu 26.04 LTS (HVM) was lunched in the eu-north-1 region using the AWS console.
 __2.__ Created SSH key pair named test to access the instance on port 22
 
-   ![Lunch Instance](creatingtestone.png)
+   ![Lunch Instance](Lamp_stack/images/creatingtestone.PNG)
 
 __3.__ The security group was configured with the following inbound rules:
 
@@ -15,7 +15,7 @@ Allow traffic on port 80 (HTTP) with source from anywhere on the internet.
 Allow traffic on port 443 (HTTPS) with source from anywhere on the internet.
 Allow traffic on port 22 (SSH) with source from any IP address. This is opened by default.
 
- ![Security Rules](./images/inbound-roles.png)
+ ![Security Rules](Lamp_stack/images/inbound-roles.png)
 
 __4.__ The default VPC and Subnet was used for the networking configuration.
 
