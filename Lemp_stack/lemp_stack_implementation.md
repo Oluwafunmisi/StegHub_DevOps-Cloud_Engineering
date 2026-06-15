@@ -247,12 +247,13 @@ Past in:
 ```
 <?php
 phpinfo();
+?>
+
 ```
 __2.__ __Access the page on the browser and attach /info.php__
 ```
 http://16.170.159.170/info.php
 ```
-![PHP page](./images/php-page.png)
 
 After checking the relevant information about the server through this page, It’s best to remove the file created as it contains sensitive information about the PHP environment and the ubuntu server. It can always be recreated if the information is needed later.
 ```
