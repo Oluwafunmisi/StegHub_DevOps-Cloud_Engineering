@@ -12,3 +12,16 @@ __1.__ EC2 Instance of t3.micro type and Ubuntu 26.04 LTS (HVM) was lunched in t
 <img src="./images/createlemp.PNG" alt="Luanch Instance" width="800">
 <img src="./images/lempview.PNG" alt="Instance" width="800">
 
+__2.__ Created SSH key pair named test to access the instance on port 22
+
+__3.__ The security group was configured with the following inbound rules:
+
+- Allow traffic on port 80 (HTTP) with source from anywhere on the internet.
+- Allow traffic on port 443 (HTTPS) with source from anywhere on the internet.
+- Allow traffic on port 22 (SSH) with source from any IP address. This is opened by default.
+
+<img src="./images/security.PNG" alt="Security" width="800">
+
+__4.__ The default VPC and Subnet was used for the networking configuration.
+
+<img src="./images/subnet.PNG" alt="Subnet" width="800">
