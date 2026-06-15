@@ -1,4 +1,4 @@
-## WEB STACK IMPLEMENTATION (LEMP STACK)
+<img width="628" height="67" alt="image" src="https://github.com/user-attachments/assets/72d442ec-9b12-4d8a-819c-42e812ad8b6a" />## WEB STACK IMPLEMENTATION (LEMP STACK)
 
 ### Introduction
 
@@ -261,11 +261,11 @@ After checking the relevant information about the server through this page, Itâ€
 ```
 sudo rm /var/www/projectLEMP/info.php
 ```
-<img src="./images/infogone.PNG" alt="PHP info removed" width="800">
+<img src="./images/infogone.PNG" alt="Info removed" width="800">
 
 ## Step 6 - Retrieve Data from MySQL database with PHP
 
-### Create a new user with the mysql_native_password authentication method in order to be able to connect to MySQL database from PHP.
+### Create a new user with the caching_sha2_password authentication method in order to be able to connect to MySQL database from PHP.
 
 Create a database named todo_database and a user named todo_user
 
@@ -273,14 +273,105 @@ __1.__ __First, connect to the MySQL console using the root account.__
 ```
 sudo mysql -p
 ```
-![MySQL console](./images/mysql-console.png)
+<img src="./images/connectmysql.PNG" alt="SQL connect" width="800">
 
 __2.__ __Create a new database__
 ```
-CREATE DATABASE todo_database;
+CREATE DATABASE `example_database`;
 ```
-![Create database](./images/create-db.png)
+<img src="./images/sampledb.PNG" alt="Sample" width="800">
 
 __3.__ __Create a new user and grant the user full privileges on the new database.__
 ```
-CREATE USER 'todo_user'@'%' IDENTIFIED WITH mysql_native_password BY 'Admin123$';
+CREATE USER 'example_user'@'%' IDENTIFIED WITH caching_sha2_password BY 'PassWord.1';
+```
+<img src="./images/user.PNG" alt="User" width="800">
+
+```
+GRANT ALL ON example_database.* TO 'example_user'@'%';
+```
+<img src="./images/grant.PNG" alt="Grant" width="800">
+
+```
+exit
+```
+
+__4.__ __Login to MySQL console with the user custom credentials and confirm that you have access to todo_database.__
+
+```
+mysql -u example_user -p
+
+SHOW DATABASES;
+```
+The -p flag will prompt for password used when creating the example_user
+<img src="./images/new.PNG" alt="New Sql" width="800">
+
+__5.__ __Create a test table named example_database__.
+
+From MySQL console, run the following:
+```
+CREATE TABLE example_database.todo_list (
+  item_id INT AUTO_INCREMENT,
+  content VARCHAR(255),
+  PRIMARY KEY(item_id)
+);
+```
+<img src="./images/todo.PNG" alt="Todo Sql" width="800">
+
+__6.__ __Insert a few rows of content to the test table__.
+
+```
+INSERT INTO example_database.todo_list (content) VALUES ("My first important item");
+```
+
+__7.__ __To confirm that the data was successfully saved to the table run:__
+
+```
+SELECT * FROM example_database.todo_list;
+```
+<img src="./images/first.PNG" alt="First Sql" width="800">
+
+```
+exit
+```
+
+__1.__ __Create a new PHP file in the custom web root directory__
+```
+sudo nano /var/www/projectLEMP/todo_list.php
+```
+The PHP script connects to MySQL database and queries for the content of the todo_list table, displays the results in a list. If thereâ€™s a problem with the database connection, it will throw an exception.
+
+Copy the content below into the todo_list.php script.
+```
+<?php
+$user = "example_user";
+$password = "PassWord.1";
+$database = "example_database";
+$table = "todo_list";
+
+try {
+  $db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
+  echo "<h2>TODO</h2><ol>";
+  foreach($db->query("SELECT content FROM $table") as $row) {
+    echo "<li>" . $row['content'] . "</li>";
+  }
+  echo "</ol>";
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
+
+```
+<img src="./images/nanotodo.PNG" alt="Todo script" width="800">
+
+__2.__ __Now access this page on the browser by using the domain name or public IP address followed by /todo_list.php__
+
+```
+http://16.170.159.170/todo_list.php
+```
+
+<img src="./images/todoweb.PNG" alt="Todo web" width="800">
+
+### Conclusion
+
+The components in the LEMP stack are all open-source, and each of them plays a specific role in building the web application.
