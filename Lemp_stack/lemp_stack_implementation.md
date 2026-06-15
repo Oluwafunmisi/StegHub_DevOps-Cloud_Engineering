@@ -1,4 +1,4 @@
-<img width="628" height="67" alt="image" src="https://github.com/user-attachments/assets/72d442ec-9b12-4d8a-819c-42e812ad8b6a" />## WEB STACK IMPLEMENTATION (LEMP STACK)
+## WEB STACK IMPLEMENTATION (LEMP STACK)
 
 ### Introduction
 
