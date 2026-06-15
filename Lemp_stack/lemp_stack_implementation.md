@@ -177,7 +177,7 @@ server {
 }
 ```
 
-<img src="./images/config.PNG" alt="Nginx Config" width="800">
+<img src="./images/configg.PNG" alt="Nginx Config" width="800">
 
 ### Here’s what each directives and location blocks does:
 
@@ -250,12 +250,37 @@ phpinfo();
 ?>
 
 ```
+
 __2.__ __Access the page on the browser and attach /info.php__
 ```
 http://16.170.159.170/info.php
 ```
+<img src="./images/infophp.PNG" alt="PHP info" width="800">
 
 After checking the relevant information about the server through this page, It’s best to remove the file created as it contains sensitive information about the PHP environment and the ubuntu server. It can always be recreated if the information is needed later.
 ```
 sudo rm /var/www/projectLEMP/info.php
 ```
+<img src="./images/infgone.PNG" alt="PHP info removed" width="800">
+
+## Step 6 - Retrieve Data from MySQL database with PHP
+
+### Create a new user with the mysql_native_password authentication method in order to be able to connect to MySQL database from PHP.
+
+Create a database named todo_database and a user named todo_user
+
+__1.__ __First, connect to the MySQL console using the root account.__
+```
+sudo mysql -p
+```
+![MySQL console](./images/mysql-console.png)
+
+__2.__ __Create a new database__
+```
+CREATE DATABASE todo_database;
+```
+![Create database](./images/create-db.png)
+
+__3.__ __Create a new user and grant the user full privileges on the new database.__
+```
+CREATE USER 'todo_user'@'%' IDENTIFIED WITH mysql_native_password BY 'Admin123$';
