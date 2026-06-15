@@ -7,8 +7,8 @@ __LEMP is an open-source web application stack used to develop web applications.
 
 ## Step 0: Prerequisites
 
-__1.__  EC2 Instance of t3.micro type and Ubuntu 26.04 LTS (HVM) was lunched in the eu-north-1 region using the AWS console.
+__1.__ EC2 Instance of t3.micro type and Ubuntu 26.04 LTS (HVM) was lunched in the eu-north-1 region using the AWS console.
 
-<img src="./images/createlemp.png" alt="Luanch Instance" width="400">
-<img src="./images/lempview.png" alt="Instance" width="400">
+<img src="./images/createlemp.PNG" alt="Luanch Instance" width="400">
+<img src="./images/lempview.PNG" alt="Instance" width="400">
 
