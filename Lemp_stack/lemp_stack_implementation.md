@@ -261,7 +261,7 @@ After checking the relevant information about the server through this page, Itâ€
 ```
 sudo rm /var/www/projectLEMP/info.php
 ```
-<img src="./images/infgone.PNG" alt="PHP info removed" width="800">
+<img src="./images/infogone.PNG" alt="PHP info removed" width="800">
 
 ## Step 6 - Retrieve Data from MySQL database with PHP
 
