@@ -191,7 +191,7 @@ vim api.js
 ```
 __Copy__ the code below into the file
 
-```bash
+```
 const express = require('express');
 const router = express.Router();
 
@@ -309,9 +309,9 @@ AWS cloud provider, in region eu-north-1 was selected.
 
 <img width="600" alt="eu" src="https://github.com/user-attachments/assets/aaad7e78-34b5-44ca-88e7-bc2b777dc9be" />
 
-A __database__ named __tododb__ and __collections__ named __todo__ was created.
+A __database__ named __tododb__ and __collections__ named __todos__ was created.
 
-<img width="800" alt="tododb" src="https://github.com/user-attachments/assets/0614e429-a574-4be8-bb4d-447cd5525622" />
+<img width="671" height="152" alt="tododb" src="https://github.com/user-attachments/assets/e89edf71-0b42-4a7d-bc11-913f00ce2196" />
 <img width="800" alt="ipactive" src="https://github.com/user-attachments/assets/3fac3ef5-1c1b-466b-a3f9-eae75be1e9cd" />
 
 __2.__ __Create a file in your Todo directory and name it .env, open the file__
@@ -323,7 +323,7 @@ Add connection string below to access the database
 ```
 DB = ‘mongodb+srv://<username>:<password>@<network-address>/<dbname>?retryWrites=true&w=majority’
 ```
-<img width="800" alt="dbread" src="https://github.com/user-attachments/assets/0c69fe30-3c67-4edf-9ada-27d984ff51ad" />
+<img width="853" height="50" alt="dbread" src="https://github.com/user-attachments/assets/9fe5cefb-6bbe-4c0d-b8ba-9adc652acbc4" />
 
 __3.__ __Update the index.js to reflect the use of .env so that Node.js can connect to the database__.
 
@@ -390,7 +390,6 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
 import routes from './routes/api.js';
-export default router;
 
 dotenv.config({ path: './.env' });
 dotenv.config();
@@ -402,7 +401,10 @@ const port = process.env.PORT || 5000;
 // Connect to database
 
 mongoose.connect(process.env.DB)
-  .then(() => console.log('Database connected successfully'))
+  .then(() => {
+    console.log('Database connected successfully');
+    console.log('Database name:', mongoose.connection.name);
+  })
   .catch(err => console.error('Mongo error:', err));
 
 mongoose.Promise = global.Promise;
@@ -429,7 +431,7 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 ```
-<img width="800" alt="dbconnected" src="https://github.com/user-attachments/assets/21aea817-9f64-407d-8868-f092d94b5556" />
+<img width="636" height="71" alt="dbconnected" src="https://github.com/user-attachments/assets/1a2028c7-b1b6-41d1-ba94-748ee014acb6" />
 
 ## Testing Backend Code without Frontend using RESTful API
 
@@ -439,5 +441,498 @@ The endpoints were tested. For the endpoints that require body, JSON was sent ba
 __1.__ __Open Postman and Set the header__
 
 ```
-http://13.60.65.975000/api/todos
+http://13.60.65.97:5000/api/todos
 ```
+<img width="527" height="333" alt="header" src="https://github.com/user-attachments/assets/cc3a22ed-ea6b-4f20-8bce-d218f87cb339" />
+
+### Create POST requests to the API
+
+<img width="540" height="479" alt="post" src="https://github.com/user-attachments/assets/1efdce26-d49f-4b52-81ee-1d8d8059b77f" />
+<img width="526" height="395" alt="posttt" src="https://github.com/user-attachments/assets/2af96a31-5d36-4517-a077-b21b3b93534b" />
+<img width="524" height="418" alt="postt" src="https://github.com/user-attachments/assets/d696b86a-d7cb-44f0-956d-5c7637bd84e0" />
+
+### Check Database Collections
+
+<img width="695" height="276" alt="dbtodos" src="https://github.com/user-attachments/assets/418fe514-d296-4c31-acda-37e98f2a8c7a" />
+<img width="674" height="336" alt="dbtodosss" src="https://github.com/user-attachments/assets/1d579b5c-d58f-4dc9-8727-d423b56ced80" />
+<img width="693" height="361" alt="dbtodoss" src="https://github.com/user-attachments/assets/7cf05944-aa06-4b36-8991-94b9b1f90224" />
+
+### Make a GET requests to the API
+
+This request retrieves all existing records from our To-Do application (backend requests these records from the database and sends us back as a response to GET request).
+
+<img width="536" height="443" alt="get" src="https://github.com/user-attachments/assets/56808d82-b786-4529-9d05-f603ce461d4c" />
+<img width="528" height="458" alt="gettt" src="https://github.com/user-attachments/assets/eb29f014-4eb0-48e3-9e99-68f2a0e09390" />
+<img width="554" height="450" alt="gett" src="https://github.com/user-attachments/assets/f5a6afbc-2a80-4908-a21b-74f618dba661" />
+
+
+###  Delete Database Collections
+
+<img width="540" height="311" alt="delete" src="https://github.com/user-attachments/assets/c5fa3f6c-6e5b-4221-a8e1-f234ac18f14e" />
+
+###  Check Database Collections
+
+<img width="692" height="295" alt="check" src="https://github.com/user-attachments/assets/cebcd023-8173-425f-a1d7-55ef75363b71" />
+
+### Make another GET requests to the API
+
+<img width="527" height="397" alt="newg" src="https://github.com/user-attachments/assets/9c558914-be6f-4dd5-9110-5527e970a758" />
+
+## Step 2 - Frontend Creation
+
+It is time to create a user interface for a Web client (browser) to interact with the application via API
+
+__1.__ __In the same root directory as your backend code, which is the Todo directory, run:__
+
+```
+npx create-react-app client
+```
+<img width="443" height="69" alt="react" src="https://github.com/user-attachments/assets/fbce7cde-2424-4bf1-a4e0-621e3600f278" />
+
+This created a new folder in the Todo directory called client, where all the react code was added.
+
+### Running a React App
+
+Before testing the react app, the following dependencies needs to be installed in the project root directory.
+
+- __Install concurrently__. It is used to run more than one command simultaneously from the same terminal window.
+  
+```
+npm install concurrently --save-dev
+```
+<img width="490" height="117" alt="save" src="https://github.com/user-attachments/assets/27a497b7-e3de-435b-9dc3-90d50397fd74" />
+
+- __Install nodemon__. It is used to run and monitor the server. If there is any change in the server code, nodemon will restart it automatically and load the new changes.
+  
+```
+npm install nodemon --save-dev
+```
+<img width="485" height="111" alt="nodemon" src="https://github.com/user-attachments/assets/541324c4-7acb-4fd5-b9a0-e31dbaa0ab60" />
+
+- In Todo folder open the package.json file, change the highlighted part of the below screenshot and replace with the code below:
+- 
+```
+"scripts": {
+  "start": "node index.js",
+  "start-watch": "nodemon index.js",
+  "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\""
+}
+```
+<img width="619" height="378" alt="json" src="https://github.com/user-attachments/assets/296fca0d-e785-419e-a46a-e93d160cee93" />
+
+### Configure Proxy In package.json
+
+- Change directory to “client”
+```
+cd client
+```
+- Open the package.json file
+```
+vim package.json
+```
+<img width="692" height="392" alt="package" src="https://github.com/user-attachments/assets/6054d831-e878-413a-8e11-9a24c628a845" />
+
+Add the key value pair in the package.json file
+```
+“proxy”: “http://localhost:5000”
+```
+<img width="359" height="192" alt="proxy" src="https://github.com/user-attachments/assets/7a01bced-84c0-4779-9457-93ba56c2570d" />
+
+The whole purpose of adding the proxy configuration above is to make it possible to access the application directly from the browser by simply calling the server url like
+http://locathost:5000 rather than always including the entire path like http://localhost:5000/api/todos
+
+Ensure you are inside the Todo directory, and simply do:
+```
+npm run dev
+```
+<img width="926" height="439" alt="run" src="https://github.com/user-attachments/assets/6964d052-5130-4a34-b1dd-db5af432228d" />
+
+The app opened and started running on localhost:3000
+
+__Note__: In order to access the application from the internet, TCP port 3000 had been opened on EC2.
+
+
+## Creating React Components
+
+One of the advantages of react is that it makes use of components, which are reusable and also makes code modular. For the Todo app, there are two stateful components and one stateless component. From Todo directory, run:
+
+```
+cd client
+```
+Move to the “src” directory
+```
+cd src
+```
+
+__2.__ __Inside your src folder, create another folder called “components”__
+
+```
+mkdir components
+```
+Move into the components directory
+
+```
+cd components
+```
+<img width="425" height="143" alt="components" src="https://github.com/user-attachments/assets/bf09e147-3340-4e7f-aea3-f47c0278ff2c" />
+
+__3.__ __Inside the ‘components’ directory create three files “Input.js”, “ListTodo.js” and “Todo.js”.__
+
+```
+touch Input.js ListTodo.js Todo.js
+```
+<img width="632" height="25" alt="tilt" src="https://github.com/user-attachments/assets/303f6cd1-3244-4835-8abe-60102ff62a07" />
+
+#### Open Input.js file
+```
+vim Input.js
+```
+Paste in the following:
+
+```
+import React, { Component } from 'react';
+import axios from 'axios';
+
+class Input extends Component {
+  state = {
+    action: ""
+  }
+
+  handleChange = (event) => {
+    this.setState({ action: event.target.value });
+  }
+
+  addTodo = () => {
+    const task = { action: this.state.action };
+
+    if (task.action && task.action.length > 0) {
+      axios.post('/api/todos', task)
+        .then(res => {
+          if (res.data) {
+            this.props.getTodos();
+            this.setState({ action: "" });
+          }
+        })
+        .catch(err => console.log(err));
+    } else {
+      console.log('Input field required');
+    }
+  }
+
+  render() {
+    let { action } = this.state;
+    return (
+      <div>
+        <input type="text" onChange={this.handleChange} value={action} />
+        <button onClick={this.addTodo}>add todo</button>
+      </div>
+    );
+  }
+}
+
+export default Input;
+```
+<img width="710" height="520" alt="inputjs" src="https://github.com/user-attachments/assets/aac5cf09-1ef3-48f8-a122-1d46e81cc634" />
+
+In oder to make use of Axios, which is a Promise based HTTP client for the browser and node.js, you need to cd into your client from your terminal and run yarn add axios or npm install axios.
+
+Move to the client folder
+```
+cd ../..
+```
+__Install Axios__
+
+```
+npm install axios
+```
+<img width="415" height="235" alt="axios" src="https://github.com/user-attachments/assets/e8779584-ce2c-431a-8711-25ea25dc1ff7" />
+
+#### Go to components directory
+
+```
+cd src/components
+```
+#### After that open the ListTodo.js
+
+```
+vim ListTodo.js
+```
+Copy and paste the following code:
+
+```
+import React from 'react';
+
+const ListTodo = ({ todos, deleteTodo }) => {
+  return (
+    <ul>
+      {
+        todos && todos.length > 0 ? (
+          todos.map(todo => {
+            return (
+              <li key={todo._id} onClick={() => deleteTodo(todo._id)}>
+                {todo.action}
+              </li>
+            );
+          })
+        ) : (
+          <li>No todo(s) left</li>
+        )
+      }
+    </ul>
+  );
+}
+
+export default ListTodo;
+```
+<img width="584" height="370" alt="listjs" src="https://github.com/user-attachments/assets/ddd11a8b-75a6-4dfe-b2af-4cdc6fc4d8cc" />
+
+#### Then in the Todo.js file, write the following code
+
+```
+vim Todo.js
+```
+Paste inside:
+
+```
+import React, { Component } from 'react';
+import axios from 'axios';
+
+import Input from './Input';
+import ListTodo from './ListTodo';
+
+class Todo extends Component {
+  state = {
+    todos: []
+  }
+
+  componentDidMount() {
+    this.getTodos();
+  }
+
+  getTodos = () => {
+    axios.get('/api/todos')
+      .then(res => {
+        if (res.data) {
+          this.setState({
+            todos: res.data
+          });
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
+  deleteTodo = (id) => {
+    axios.delete(`/api/todos/${id}`)
+      .then(res => {
+        if (res.data) {
+          this.getTodos();
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
+  render() {
+    let { todos } = this.state;
+    return (
+      <div>
+        <h1>My Todo(s)</h1>
+        <Input getTodos={this.getTodos} />
+        <ListTodo todos={todos} deleteTodo={this.deleteTodo} />
+      </div>
+    );
+  }
+}
+
+export default Todo;
+```
+<img width="553" height="533" alt="todojs" src="https://github.com/user-attachments/assets/84ee521f-4021-40bf-a019-1439908b47fb" />
+
+__We need to make a little adjustment to our react code. Delete the logo and adjust our App.js to look like this__
+
+### Move to src folder
+
+```
+cd ..
+```
+
+Ensure to be in the src folder and run:
+
+```
+vim App.js
+```
+#### Copy and paste the following code
+
+```
+import React from 'react';
+import Todo from './components/Todo';
+import './App.css';
+
+const App = () => {
+  return (
+    <div className="App">
+      <Todo />
+    </div>
+  );
+}
+
+export default App;
+
+```
+<img width="549" height="261" alt="appjs" src="https://github.com/user-attachments/assets/70287e4a-bb5c-4f68-a1b5-baaf3ebbe05a" />
+
+####  In the src directory, open the App.css
+
+```
+vim App.css
+```
+
+Paste the following code into it
+
+```
+.App {
+  text-align: center;
+  font-size: calc(10px + 2vmin);
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+input {
+  height: 40px;
+  width: 50%;
+  border: none;
+  border-bottom: 2px #101113 solid;
+  background: none;
+  font-size: 1.5rem;
+  color: #787a80;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  width: 25%;
+  height: 45px;
+  border: none;
+  margin-left: 10px;
+  font-size: 25px;
+  background: #101113;
+  border-radius: 5px;
+  color: #787a80;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+ul {
+  list-style: none;
+  text-align: left;
+  padding: 15px;
+  background: #171a1f;
+  border-radius: 5px;
+}
+
+li {
+  padding: 15px;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  background: #282c34;
+  border-radius: 5px;
+  overflow-wrap: break-word;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 300px) {
+  .App {
+    width: 80%;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 15px;
+    margin-left: 0;
+  }
+}
+
+@media only screen and (min-width: 640px) {
+  .App {
+    width: 60%;
+  }
+
+  input {
+    width: 50%;
+  }
+
+  button {
+    width: 30%;
+    margin-left: 10px;
+    margin-top: 0;
+  }
+}
+
+```
+<img width="578" height="528" alt="appcss" src="https://github.com/user-attachments/assets/50549fe2-ca3d-427d-848b-3b165dd5b88a" />
+
+#### In the src directory, open the index.css
+
+```
+vim index.css
+```
+#### Copy and paste the code below:
+
+```
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  background-color: #282c34;
+  color: #787a80;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+```
+<img width="931" height="267" alt="indexcss" src="https://github.com/user-attachments/assets/066acc1c-5fc3-49f8-9095-c826b0e68bc8" />
+
+#### Go to the Todo directory
+
+```
+cd ../..
+```
+
+Run:
+
+```
+npm run dev
+```
+<img width="960" height="510" alt="sus" src="https://github.com/user-attachments/assets/c7e312e8-b08a-4c38-9948-b6ae98131f81" />
+
+At this point, the To-Do app is ready and fully functional with the functionality discussed earlier: Creating a task, deleting a task, and viewing all the tasks.
+
+__The client can now be viewed in the browser__
+
+<img width="754" height="345" alt="btodo" src="https://github.com/user-attachments/assets/7400c723-7133-4447-82b0-d7fd2c8f3dc0" />
+
+__Add some todos via the browser .__
+
+<img width="756" height="293" alt="st" src="https://github.com/user-attachments/assets/298755ba-550b-482f-9ec4-1aa6a24510f6" />
+<img width="813" height="336" alt="md" src="https://github.com/user-attachments/assets/dc6d3e50-6ee4-4afe-ac31-7fdfae32d8b8" />
+
+__Check them on the MongoDBAtlas database__
+
+<img width="680" height="293" alt="ndb" src="https://github.com/user-attachments/assets/ba4fa0d8-9edb-46b1-ab04-5b9ea4c1f35c" />
+
+### Conclusion
+
+By following this documentation and leveraging the provided resources, you have created a simple To-Do and deployed it to MERN stack, wrote a frontend application using React.js that communicates with a backend application written using Expressjs. You also created a Mongodb backend for storing tasks in a database.
