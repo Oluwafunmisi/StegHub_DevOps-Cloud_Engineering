@@ -410,55 +410,67 @@ Copy and paste the code below into index.html file
 <!DOCTYPE html>
 <html ng-app="myApp" ng-controller="myCtrl">
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Management</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   <script src="script.js"></script>
   <style>
-    /* Add your custom CSS styles here */
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    input[type="text"], input[type="number"] { width: 100%; padding: 5px; }
+    button { margin-top: 10px; padding: 5px 10px; }
   </style>
 </head>
 <body>
-  <div>
+  <h1>Book Management</h1>
+  
+  <h2>Add New Book</h2>
+  <form ng-submit="add_book()">
     <table>
       <tr>
         <td>Name:</td>
-        <td><input type="text" ng-model="Name"></td>
+        <td><input type="text" ng-model="Name" required></td>
       </tr>
-      <tr>
-        <td>Isbn:</td>
-        <td><input type="text" ng-model="Isbn"></td>
+<tr>
+        <td>ISBN:</td>
+        <td><input type="text" ng-model="Isbn" required></td>
       </tr>
       <tr>
         <td>Author:</td>
-        <td><input type="text" ng-model="Author"></td>
+        <td><input type="text" ng-model="Author" required></td>
       </tr>
       <tr>
         <td>Pages:</td>
-        <td><input type="number" ng-model="Pages"></td>
+        <td><input type="number" ng-model="Pages" required></td>
       </tr>
     </table>
-    <button ng-click="add_book()">Add</button>
-    <div ng-if="successMessage">{{ successMessage }}</div>
-    <div ng-if="errorMessage">{{ errorMessage }}</div>
-  </div>
-  <hr>
-  <div>
-    <table>
+    <button type="submit">Add Book</button>
+  </form>
+
+  <h2>Book List</h2>
+  <table>
+    <thead>
       <tr>
         <th>Name</th>
-        <th>Isbn</th>
+        <th>ISBN</th>
         <th>Author</th>
-        <th>Page</th>
+        <th>Pages</th>
         <th>Action</th>
       </tr>
+    </thead>
+    <tbody>
       <tr ng-repeat="book in books">
-        <td>{{ book.name }}</td>
-        <td>{{ book.isbn }}</td>
-        <td>{{ book.author }}</td>
-        <td>{{ book.pages }}</td>
+        <td>{{book.name}}</td>
+        <td>{{book.isbn}}</td>
+        <td>{{book.author}}</td>
+        <td>{{book.pages}}</td>
         <td><button ng-click="del_book(book)">Delete</button></td>
       </tr>
-    </table>
-  </div>
+    </tbody>
+  </table>
 </body>
 </html>
 ```
