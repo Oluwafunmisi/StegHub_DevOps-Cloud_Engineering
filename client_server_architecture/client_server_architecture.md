@@ -172,10 +172,13 @@ SELECT * FROM test_db.kpop_albums;
 created duplicate albums
 
 <img width="900" alt="kpop error" src="https://github.com/user-attachments/assets/51efd8ca-5af3-48e8-a97c-cfd7b7b04a3a" />
+
 ```
 DELETE FROM test_db.kpop_albums
+
 WHERE album_id = 2;
 ```
+
 <img width="900" alt="delete" src="https://github.com/user-attachments/assets/0c27a988-f3e5-464c-a084-a92657cf83e5" />
 
 <img width="900" alt="finished" src="https://github.com/user-attachments/assets/25888428-d8ea-4b67-bf44-b766f63205d8" />
