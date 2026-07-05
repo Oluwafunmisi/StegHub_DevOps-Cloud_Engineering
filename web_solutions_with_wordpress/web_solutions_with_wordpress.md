@@ -19,7 +19,7 @@ ssh -i "test.pem" ec2-user@51.20.253.207
 ```
 <img width="900" alt="connect instance" src="https://github.com/user-attachments/assets/d495c98e-8306-44c0-a738-9e51947a808c" />
 
-__3.__ __Use ```lsblk``` to inspect what block devices are attached to the server. All devices in Linux reside in /dev/ directory. Inspect with ```ls /dev/``` and ensure all 3 newly created devices are there. Their name will likely be ```xvdf```, ```xvdg``` and ```xvdh```__.
+__3.__ __Use ```lsblk``` to inspect what block devices are attached to the server. All devices in Linux reside in /dev/ directory. Inspect with ```ls /dev/``` and ensure all 3 newly created devices are there. Their name will likely be ```nvme1n1```, ```nvme2n1``` and ```nvme3n1```__.
 
 ```
 lsblk
@@ -200,7 +200,7 @@ ssh -i "test.pem" ec2-user@16.171.0.181
 ```
 <img width="900" alt="instance connected" src="https://github.com/user-attachments/assets/31a3b134-05cc-4c0b-8a9e-bc24dc3d5150" />
 
-__3.__ __Use ```lsblk``` to inspect what block devices are attached to the server. Their name will likely be ```xvdf```, ```xvdg``` and ```xvdh```__.
+__3.__ __Use ```lsblk``` to inspect what block devices are attached to the server. Their name will likely be ```nvme1n1```, ```nvme2n1``` and ```nvme3n1```__.
 
 ```
 lsblk
