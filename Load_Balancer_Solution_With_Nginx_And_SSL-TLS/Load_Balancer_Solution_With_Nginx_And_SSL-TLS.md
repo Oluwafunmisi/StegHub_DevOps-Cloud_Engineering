@@ -197,7 +197,7 @@ You shall be able to access your wesite using HTTPS protocol (Uses `TCP port 443
 
 <img width="800" alt="cert test 2" src="https://github.com/user-attachments/assets/75e43189-51f8-4782-9b71-468b8be66e22" />
 
-<img width="800" alt="cert test" src="https://github.com/user-attachments/assets/cc73cc88-be9e-455b-a3c0-a8c5439f9536" />
+<img width="800" alt="cert test 3" src="https://github.com/user-attachments/assets/ce80b763-3e7c-4070-89fa-1445138c912f" />
 
 ### 6. Set up periodical renewal of your SSL/TLS certificate
 
