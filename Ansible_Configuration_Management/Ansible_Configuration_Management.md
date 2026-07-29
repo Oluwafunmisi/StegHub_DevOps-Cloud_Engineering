@@ -125,7 +125,298 @@ __Make sure _Git is downloaded on your device_ > _Select clone github repository
 
 <img width="800" alt="ansible clone" src="https://github.com/user-attachments/assets/e3a2c655-e944-4ed8-81cc-17f8b5ec3f73" />
 
+### 3. Clone down your ansible-config-mgt repo to your Jenkins-Ansible instance git clone `<ansible-config-mgt repo link>`
 
+![](./images/clone-repo-to-ansible-server.png)
+
+
+## Step 3 - Begin Ansible Development
+
+### 1. In your ansible-config-mgt GitHub repository, create a new branch that will be used for development of a new feature
+
+__Tip:__ Give your branches descriptive and comprehensive names, for example, if you use Jira or Trello as a project management tool - include ticket number (e.g. PRJ-num) in the name of your branch and add a topic and a brief description what this branch is about - a bugfix, hotfix, feature, release (e.g. feature/prj-145-lvm)
+
+```bash
+git checkout -b feature/prj-11-ansible-config
+```
+![](./images/create-feature-branch.png)
+
+### 2. Checkout the newly created feature branch to your local machine and start building your code and directory structure
+
+```bash
+git fetch
+git checkout feature/prj-11-ansible-config
+```
+### 3. Create a directory and name it `playbooks` - it will be used to store all your playbook files.
+
+```bash
+mkdir playbooks
+```
+
+### 4. Create a directory and name it `inventory` - it will be used to keep your hosts organised
+
+```bash
+mkdir inventory
+```
+![](./images/mkdir-invent-playb.png)
+
+
+### 5. Within the playbooks folder, create your first playbook, and name it common.yml
+
+```bash
+touch playbooks/common.yml
+```
+
+### 6. Within the inventory folder, create an inventory file (.yml) for each environment (Development, Staging, Testing and Production) dev, staging, uat, and prod respectively.
+
+```bash
+touch inventory/dev.yml inventory/staging.yml inventory/uat.yml inventory/prod.yml
+```
+These inventory files use .ini languages style to configure Ansible hosts.
+
+![](./images/create-invent-playb-file.png)
+![](./images/inventory-playbooks.png)
+
+
+## Step 4 - Set up an Ansible Inventory
+
+An Ansible inventory file defines the hosts and groups of hosts upon which commands, modules, and tasks in a playbook operate. Since our intention is to execute Linux commands on remote hosts, and ensure that it is the intended configuration on a particular server that occurs. It is important to have a way to organize our hosts in such an Inventory
+
+Save the below inventory structure in the `inventory/dev` file to start configuring your development servers. Ensure to replace the IP addresses according to your own setup.
+
+__Note:__ Ansible uses TCP port 22 by default, which means it needs to ssh into target servers from Jenkins-Ansible host - for this you can implement the concept of [ssh-agent](https://smallstep.com/blog/ssh-agent-explained/). Now you need to import your key into `ssh-agent`:
+
+To learn how to setup SSH agent and connect VS Code to your Jenkins-Ansible instance, please see this video:
+
+- For Windows users - [ssh-agent on windows](https://www.youtube.com/watch?v=OplGrY74qog)
+- For Linux users - [ssh-agent on linux](https://www.youtube.com/watch?v=OplGrY74qog)
+
+
+__Start the SSH Agent:__
+
+This starts the `SSH agent` in your current terminal session and sets the necessary environment variables.
+
+```bash
+eval `ssh-agent -s`
+```
+__Add Your SSH Key:__
+
+Add your `SSH private key` to the agent. replace the path with the correct path to the private key.
+
+```bash
+ssh-add <path-to-private-key>
+```
+![](./images/ssh-agent.png)
+
+__Verify the Key is Loaded:__
+
+Check that your key has been successfully added to the SSH agent. you should see the name of your key
+
+```bash
+ssh-add -l
+```
+![](./images/confirm-private-key-added.png)
+
+__Now, ssh into your Jenkins-Ansible server using ssh-agent__
+
+```bash
+ssh -A ubuntu@public-ip
+```
+![](./images/ssh-access-with-agent.png)
+
+![](./images/added-ssh.png)
+
+To learn how to setup SSH agent and connect VS Code to your Jenkins-Ansible instance, See this video: [Windows](https://www.youtube.com/watch?v=OplGrY74qog) [Linux](https://www.youtube.com/watch?v=RRRQLgAfcJw)
+
+Also notice, that your Load Balancer user is ubuntu and user for RHEL-based servers is ec2-user
+
+__Update your `inventory/dev.yml` file with this snippet of code:__
+
+```yaml
+all:
+  children:
+    nfs:
+      hosts:
+        <NFS-Server-Private-IP-Address>:
+          ansible_ssh_user: ec2-user
+    webservers:
+      hosts:
+        <Web-Server1-Private-IP-Address>:
+          ansible_ssh_user: ec2-user
+        <Web-Server2-Private-IP-Address>:
+          ansible_ssh_user: ec2-user
+    db:
+      hosts:
+        <Database-Private-IP-Address>:
+          ansible_ssh_user: ubuntu
+    lb:
+      hosts:
+        <Load-Balancer-Private-IP-Address>:
+          ansible_ssh_user: ubuntu
+```
+![](./images/inventory.png)
+
+
+## Step 5 - Create a Common Playbook
+
+It is time to start giving Ansible the instructions on what you need to be performed on all servers listed in `inventory/dev`
+
+In `common.yml` playbook you will write configuration for repeatable, re-usable, and multi-machine tasks that is common to systems within the infrastructure.
+
+__Update your `playbooks/common.yml` file with following code__
+
+```yaml
+---
+- name: Update web and NFS servers
+  hosts: webservers, nfs
+  remote_user: ec2-user
+  become: true
+  become_user: root
+  tasks:
+    - name: Ensure wireshark is at the latest version
+      yum:
+        name: wireshark
+        state: latest
+
+- name: Update LB and DB servers
+  hosts: lb, db
+  remote_user: ubuntu
+  become: true
+  become_user: root
+  tasks:
+    - name: Update apt repo
+      apt:
+        update_cache: yes
+
+    - name: Ensure wireshark is at the latest version
+      apt:
+        name: wireshark
+        state: latest
+```
+![](./images/playbooks-xcode.png)
+
+Examine the code above and try to make sense out of it. This playbook is divided into two parts, each of them is intended to perform the same task :
+
+install `wireshark` utility (or make sure it is updated to the latest version) on your RHEL 9 and Ubuntu servers.
+It uses root user to perform this task and respective package manager: `yum` for RHEL 9 and `apt` for Ubuntu.
+
+Feel free to update this playbook with following tasks:
+
+- Create a directory and a file inside it
+
+- Change timezone on all servers
+
+- Run some shell script
+
+For a better understanding of Ansible playbooks - [watch this video from RedHat](https://www.youtube.com/watch?v=ZAdJ7CdN7DY) and read [this article](https://www.redhat.com/en/topics/automation/what-is-an-ansible-playbook) - What is an Ansible Playbook?
+
+
+## Step 6 - Update GIT with the latest code
+
+Now all of your directories and files live on your machine and you need to push changes made locally to GitHub.
+
+`
+In the real world, you will be working within a team of other DevOps engineers and developers. It is important to learn how to collaborate with help of GIT. In many organisations there is a development rule that do not allow to deploy any code before it has been reviewed by an extra pair of eyes - it is also called Four eyes principle.
+`
+Now you have a separate branch, you will need to know how to raise a `Pull Request (PR)`, get your branch peer reviewed and merged to the `main` branch.
+
+
+__Commit your code into GitHub:__
+
+1. Use git commands to add, commit and push your branch to GitHub.
+
+```bash
+git status
+
+git add <selected files>
+
+git commit -m "commit message"
+
+git push origin <the feature branch>
+```
+![](./images/git-add-commit-push.png)
+
+
+2. Create a Pull Request (PR)
+
+![](./images/create-PR.png)
+
+3. Wear the hat of another developer for a second, and act as a reviewer.
+
+![](./images/reviewer.png)
+
+4. If the reviewer is happy with your new feature development, merge the code to the main branch.
+
+![](./images/branch-no-conflict.png)
+![](./images/merged.png)
+
+5. Head back on your terminal, checkout from the feature branch into the master, and pull down the latest changes
+
+![](./images/git-pull-main.png)
+
+Once your code changes appear in main branch - Jenkins will do its job and save all the files (build artifacts) to
+
+![](./images/j-build-12.png)
+
+Console Output
+![](./images/j-console-output.png)
+
+Check the artifact directory
+```
+/var/lib/jenkins/jobs/ansible/builds/<build_number>/archive/
+```
+
+
+
+## Step 7 - Run first Ansible test
+
+Now, it is time to execute ansible-playbook command and verify if your playbook actually works: first setup our vs code to connect our instance for remote development, follow these steps:
+
+1. Install Remote Development and Remote - SSH Extension
+
+2. Configure the SSH Host
+
+<img width="800"  alt="connection" src="https://github.com/user-attachments/assets/7497afb4-5a04-404c-b7ea-61a9317a904b" />
+
+
+Another VSCODE opens showing the access mode and the name of the remote server (`SSH: jenkins-ansible`) at the top and at the bottom left corner. This indicates that we are now in the remote server
+
+<img width="800" alt="ansible connected" src="https://github.com/user-attachments/assets/a5330b19-76d6-494d-b84a-c51caa611402" />
+
+3. Run ansible-playbook command:
+
+```
+ansible-playbook -i inventory/dev.yml playbooks/common.yml
+```
+<img width="800" alt="playbook inventory" src="https://github.com/user-attachments/assets/b7542f9c-b91e-4f1c-813a-d12b65267fdc" />
+
+<img width="800" alt="done" src="https://github.com/user-attachments/assets/b778692d-f1c9-4836-b233-82ad8649d4e1" />
+
+You can go to each of the servers and check if wireshark has been installed by running
+
+```
+which wireshark
+
+or
+
+wireshark --version
+```
+<img width="800"  alt="wire" src="https://github.com/user-attachments/assets/3b19a615-f835-4262-a97e-2f01ef617f09" />
+
+<img width="800" alt="wiree" src="https://github.com/user-attachments/assets/82a8aa28-363e-4888-8392-4fd680184f21" />
+
+<img width="800" alt="wireee" src="https://github.com/user-attachments/assets/1e73bcc5-b651-4ba7-8a3a-8e4887f618f6" />
+
+Your updated with Ansible architecture now looks like this:
+
+<img width="800" alt="image-48" src="https://github.com/user-attachments/assets/98afb17f-3787-471b-92ef-888cf1e2062f" />
+
+
+## Optional step - Repeat once again
+
+Update your ansible playbook with some new Ansible tasks and go through the full checkout -> change codes->commit -> PR -> merge -> build -> ansible-playbook cycle again to see how easily you can manage a servers fleet of any size with just one command!
+
+We have just automated our routine tasks by implementing with Ansible configurations.
 
 
 
