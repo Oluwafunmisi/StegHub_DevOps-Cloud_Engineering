@@ -127,8 +127,7 @@ __Make sure _Git is downloaded on your device_ > _Select clone github repository
 
 ### 3. Clone down your ansible-config-mgt repo to your Jenkins-Ansible instance git clone `<ansible-config-mgt repo link>`
 
-![](./images/clone-repo-to-ansible-server.png)
-
+<img width="800" alt="clonegit" src="https://github.com/user-attachments/assets/4ee533a3-4dd0-4f63-aa62-7a3d115cd4c5" />
 
 ## Step 3 - Begin Ansible Development
 
@@ -137,7 +136,7 @@ __Make sure _Git is downloaded on your device_ > _Select clone github repository
 __Tip:__ Give your branches descriptive and comprehensive names, for example, if you use Jira or Trello as a project management tool - include ticket number (e.g. PRJ-num) in the name of your branch and add a topic and a brief description what this branch is about - a bugfix, hotfix, feature, release (e.g. feature/prj-145-lvm)
 
 ```
-git checkout -b feature/prj-145-ansible-config
+git checkout -b feature/PRJ-145-ansible-config
 ```
 <img width="800" alt="checkout" src="https://github.com/user-attachments/assets/1852b36d-105e-41c5-af34-edb8fb19b04c" />
 
@@ -146,7 +145,8 @@ git checkout -b feature/prj-145-ansible-config
 
 ```
 git fetch
-git checkout feature/prj-145-ansible-config
+
+git checkout feature/PRJ-145-ansible-config
 ```
 ### 3. Create a directory and name it `playbooks` - it will be used to store all your playbook files.
 
@@ -266,7 +266,6 @@ In `common.yml` playbook you will write configuration for repeatable, re-usable,
 __Update your `playbooks/common.yml` file with following code__
 
 ```
----
 - name: Update web and NFS servers
   hosts: webservers, nfs
   remote_user: ec2-user
@@ -412,7 +411,8 @@ wireshark --version
 
 Your updated with Ansible architecture now looks like this:
 
-<img width="800" alt="image-48" src="https://github.com/user-attachments/assets/98afb17f-3787-471b-92ef-888cf1e2062f" />
+<img width="800" alt="image-48" src="https://github.com/user-attachments/assets/27d4ec52-d362-4901-a393-92d0e87a40ed" />
+
 
 
 ## Optional step - Repeat once again
