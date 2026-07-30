@@ -136,47 +136,50 @@ __Make sure _Git is downloaded on your device_ > _Select clone github repository
 
 __Tip:__ Give your branches descriptive and comprehensive names, for example, if you use Jira or Trello as a project management tool - include ticket number (e.g. PRJ-num) in the name of your branch and add a topic and a brief description what this branch is about - a bugfix, hotfix, feature, release (e.g. feature/prj-145-lvm)
 
-```bash
-git checkout -b feature/prj-11-ansible-config
 ```
-![](./images/create-feature-branch.png)
+git checkout -b feature/prj-145-ansible-config
+```
+<img width="800" alt="checkout" src="https://github.com/user-attachments/assets/1852b36d-105e-41c5-af34-edb8fb19b04c" />
+
 
 ### 2. Checkout the newly created feature branch to your local machine and start building your code and directory structure
 
-```bash
+```
 git fetch
-git checkout feature/prj-11-ansible-config
+git checkout feature/prj-145-ansible-config
 ```
 ### 3. Create a directory and name it `playbooks` - it will be used to store all your playbook files.
 
-```bash
+```
 mkdir playbooks
 ```
+<img width="800" alt="playbook" src="https://github.com/user-attachments/assets/1682fbe8-9b7b-4ded-8521-afda350ca564" />
+
 
 ### 4. Create a directory and name it `inventory` - it will be used to keep your hosts organised
 
-```bash
+```
 mkdir inventory
 ```
-![](./images/mkdir-invent-playb.png)
-
+<img width="800" alt="inventory" src="https://github.com/user-attachments/assets/05423c0d-59a0-4e01-a2d3-b3a5a147c699" />
 
 ### 5. Within the playbooks folder, create your first playbook, and name it common.yml
 
-```bash
-touch playbooks/common.yml
 ```
+New-Item -Path playbooks/common.yml -ItemType File
+```
+<img width="800" alt="common" src="https://github.com/user-attachments/assets/ff7845d8-53f5-4438-8909-c887b5def2f8" />
 
 ### 6. Within the inventory folder, create an inventory file (.yml) for each environment (Development, Staging, Testing and Production) dev, staging, uat, and prod respectively.
 
-```bash
-touch inventory/dev.yml inventory/staging.yml inventory/uat.yml inventory/prod.yml
+```
+New-Item -Path inventory/dev.yml inventory/staging.yml inventory/uat.yml inventory/prod.yml -ItemType File
 ```
 These inventory files use .ini languages style to configure Ansible hosts.
 
-![](./images/create-invent-playb-file.png)
-![](./images/inventory-playbooks.png)
+<img width="800" alt="inventory update" src="https://github.com/user-attachments/assets/5c43bae1-98e2-4a5d-82e4-6d03bcd010e9" />
 
+<img width="800" alt="ansible update" src="https://github.com/user-attachments/assets/ae8f3ed6-e02c-4c3b-9230-cae054210640" />
 
 ## Step 4 - Set up an Ansible Inventory
 
@@ -196,35 +199,32 @@ __Start the SSH Agent:__
 
 This starts the `SSH agent` in your current terminal session and sets the necessary environment variables.
 
-```bash
+```
 eval `ssh-agent -s`
 ```
 __Add Your SSH Key:__
 
 Add your `SSH private key` to the agent. replace the path with the correct path to the private key.
 
-```bash
+```
 ssh-add <path-to-private-key>
 ```
-![](./images/ssh-agent.png)
 
 __Verify the Key is Loaded:__
 
 Check that your key has been successfully added to the SSH agent. you should see the name of your key
 
-```bash
+```
 ssh-add -l
 ```
-![](./images/confirm-private-key-added.png)
 
 __Now, ssh into your Jenkins-Ansible server using ssh-agent__
 
-```bash
+```
 ssh -A ubuntu@public-ip
 ```
-![](./images/ssh-access-with-agent.png)
+<img width="800" alt="ssh public ip" src="https://github.com/user-attachments/assets/9fc3d215-6d26-4120-8de7-973426039299" />
 
-![](./images/added-ssh.png)
 
 To learn how to setup SSH agent and connect VS Code to your Jenkins-Ansible instance, See this video: [Windows](https://www.youtube.com/watch?v=OplGrY74qog) [Linux](https://www.youtube.com/watch?v=RRRQLgAfcJw)
 
@@ -232,7 +232,7 @@ Also notice, that your Load Balancer user is ubuntu and user for RHEL-based serv
 
 __Update your `inventory/dev.yml` file with this snippet of code:__
 
-```yaml
+```
 all:
   children:
     nfs:
@@ -254,8 +254,8 @@ all:
         <Load-Balancer-Private-IP-Address>:
           ansible_ssh_user: ubuntu
 ```
-![](./images/inventory.png)
 
+<img width="800" alt="dev yml" src="https://github.com/user-attachments/assets/b45297ae-2cb2-44f9-92b2-54258f9201aa" />
 
 ## Step 5 - Create a Common Playbook
 
@@ -265,7 +265,7 @@ In `common.yml` playbook you will write configuration for repeatable, re-usable,
 
 __Update your `playbooks/common.yml` file with following code__
 
-```yaml
+```
 ---
 - name: Update web and NFS servers
   hosts: webservers, nfs
@@ -293,7 +293,8 @@ __Update your `playbooks/common.yml` file with following code__
         name: wireshark
         state: latest
 ```
-![](./images/playbooks-xcode.png)
+
+<img width="800" alt="common yml" src="https://github.com/user-attachments/assets/a51ab323-0c92-4244-b00a-919946b407a7" />
 
 Examine the code above and try to make sense out of it. This playbook is divided into two parts, each of them is intended to perform the same task :
 
@@ -325,7 +326,9 @@ __Commit your code into GitHub:__
 
 1. Use git commands to add, commit and push your branch to GitHub.
 
-```bash
+```
+git add .
+
 git status
 
 git add <selected files>
@@ -334,39 +337,39 @@ git commit -m "commit message"
 
 git push origin <the feature branch>
 ```
-![](./images/git-add-commit-push.png)
 
+<img width="800" alt="common playbook" src="https://github.com/user-attachments/assets/df8c229b-c4d7-42bf-9ed7-352f8659ef40" />
 
 2. Create a Pull Request (PR)
 
-![](./images/create-PR.png)
+<img width="800" alt="pull" src="https://github.com/user-attachments/assets/bf3692d4-2df7-403e-9514-1e489bff581d" />
 
 3. Wear the hat of another developer for a second, and act as a reviewer.
 
-![](./images/reviewer.png)
+<img width="800" alt="review" src="https://github.com/user-attachments/assets/2f50cd6d-603f-49c0-a415-ffab88711698" />
 
 4. If the reviewer is happy with your new feature development, merge the code to the main branch.
 
-![](./images/branch-no-conflict.png)
-![](./images/merged.png)
+<img width="800" alt="marged" src="https://github.com/user-attachments/assets/6051d832-fc2c-4a1d-a728-8cf164e99880" />
 
-5. Head back on your terminal, checkout from the feature branch into the master, and pull down the latest changes
+5. Head back on your terminal, checkout from the feature branch into the main, and pull down the latest changes
 
-![](./images/git-pull-main.png)
+<img width="800" alt="main" src="https://github.com/user-attachments/assets/f02e0853-b203-4cfa-97fe-a1d1b384689a" />
 
 Once your code changes appear in main branch - Jenkins will do its job and save all the files (build artifacts) to
 
-![](./images/j-build-12.png)
+<img width="800" alt="build update" src="https://github.com/user-attachments/assets/37824c5c-0a7e-48ea-830b-a94e1c312857" />
 
 Console Output
-![](./images/j-console-output.png)
+
+<img width="800" alt="console out" src="https://github.com/user-attachments/assets/0889b7cc-89f1-4118-9e96-6909453ae64b" />
 
 Check the artifact directory
 ```
 /var/lib/jenkins/jobs/ansible/builds/<build_number>/archive/
 ```
 
-
+<img width="800" alt="build ssh" src="https://github.com/user-attachments/assets/4fb9e3fa-e2bd-4b2e-a657-87143af17948" />
 
 ## Step 7 - Run first Ansible test
 
@@ -417,6 +420,3 @@ Your updated with Ansible architecture now looks like this:
 Update your ansible playbook with some new Ansible tasks and go through the full checkout -> change codes->commit -> PR -> merge -> build -> ansible-playbook cycle again to see how easily you can manage a servers fleet of any size with just one command!
 
 We have just automated our routine tasks by implementing with Ansible configurations.
-
-
-
