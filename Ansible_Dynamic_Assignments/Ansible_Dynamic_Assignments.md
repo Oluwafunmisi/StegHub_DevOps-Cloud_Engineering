@@ -27,7 +27,7 @@ Load balancer security group inbound rule
 
 Database server
 
-<img width="949" height="414" alt="database" src="https://github.com/user-attachments/assets/dd745ffb-11c6-4475-a073-eb459de74c02" />
+<img width="800" alt="database" src="https://github.com/user-attachments/assets/dd745ffb-11c6-4475-a073-eb459de74c02" />
 
 From [previous project](https://steghub.com/lessons/ansible-refactoring-static-assignments-imports-and-roles-101/), we can already tell that static assignments use `import` Ansible module. The module that enables dynamic assignments is `include`.
 
@@ -204,8 +204,6 @@ HostName = Jenkins-Ansible Public IP Address
 <img width="800" alt="jenkins ansible" src="https://github.com/user-attachments/assets/99510cfa-0707-4424-9633-91e50c8d98f8" />
 
 Click on `Open Folder` and Select `ansible-config-mgt`
-
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/524fe44c-e09f-4745-b165-18ea0528cf25" />
 
 On `Jenkins-Ansible` server make sure that `git` is installed with `git --version`, then go to `ansible-config-mgt` directory and run
 
