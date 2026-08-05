@@ -402,7 +402,7 @@ load_balancer_is_required: true
 <img width="800" alt="enable uat" src="https://github.com/user-attachments/assets/3e667c5a-c3e8-45d7-a7f6-22bc1ed1bc49" />
 
 # Your flow should be:
-
+```
 Jenkins-Ansible server
 (Private IP)
         |
@@ -414,7 +414,7 @@ Jenkins-Ansible server
    (nginx/apache)    (web role)      (mysql role)
 
 ### Run the playbook against the uat inventory
-
+```
 ```
 ansible-playbook -i inventory/uat.yml playbooks/site.yml --extra-vars "env=uat"
 ```
@@ -434,7 +434,7 @@ ansible-playbook -i inventory/uat.yml playbooks/site.yml --extra-vars "env=uat"
 
 # Access the Load balancer
 
-___Update load balance to point to UAT web server private ip___
+___Update load balancer to point to UAT web server private ip___
 
 ```
 enable_nginx_lb: true
