@@ -107,7 +107,7 @@ __Jenkins server:__ To be used to implement your CI/CD workflows or pipelines. S
 
 __SonarQube server:__ To be used for Code quality analysis. Select a t3.medium at least, Ubuntu 24.04 and Security group should be open to port 9000
 
-__Artifactory server:__ To be used as the binary repository where the outcome of your build process is stored. Select a t2.medium at least and Security group should be open to port 8081
+__Artifactory server:__ To be used as the binary repository where the outcome of your build process is stored. Select a t3.medium at least and Security group should be open to port 8081
 
 __Database server:__ To server as the databse server for the Todo application
 
