@@ -358,3 +358,16 @@ iii. Refresh the page and both branches will start building automatically. You c
 iv. In Blue Ocean, you can now see how the `Jenkinsfile` has caused a new step in the pipeline launch build for the new branch.
 
 <img width="900" alt="pipeline blue" src="https://github.com/user-attachments/assets/d53cfe19-b850-45ae-8cd7-37386b6ecdfb" />
+
+## A QUICK TASK
+
+1. Create a pull request to merge the latest code into the `main branch`
+
+Merge the PR
+
+<img width="900" alt="merged" src="https://github.com/user-attachments/assets/7f23a7aa-3d50-44f2-b595-97ea56f0134b" />
+
+2. After merging the `PR`, go back into your terminal and switch into the `main` branch.
+3. Pull the latest change.
+
+<img width="900" alt="gp main" src="https://github.com/user-attachments/assets/3cd7dfb5-4e96-4133-a833-06e7ccecb551" />
