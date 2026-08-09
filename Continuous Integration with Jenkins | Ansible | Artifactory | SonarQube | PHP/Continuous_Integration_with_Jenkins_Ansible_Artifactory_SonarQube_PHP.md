@@ -232,3 +232,11 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 <img width="900" alt="8080" src="https://github.com/user-attachments/assets/d6ef75d7-ebf5-4e09-b3ee-c28a6f758592" />
 
+## 2. Installing Blue-Ocean Plugin
+
+Install Blue Ocean plugin a Sophisticated visualizations of CD pipelines for fast and intuitive comprehension of software pipeline status.
+
+Follow the navigation below :
+
+- Go to manage jenkins > manage plugins > available
+- Search for BLUE OCEAN PLUGIN and install
