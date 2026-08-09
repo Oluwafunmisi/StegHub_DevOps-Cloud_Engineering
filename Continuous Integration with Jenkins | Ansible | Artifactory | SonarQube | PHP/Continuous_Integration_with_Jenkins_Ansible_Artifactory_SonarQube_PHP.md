@@ -77,6 +77,14 @@ To get started, we will focus on these environments initially.
 - Dev
 - Pentest
 
+CI Envirnoment
+
+<img width="900" alt="image-59" src="https://github.com/user-attachments/assets/30de1dcd-c239-4541-aec0-dcbe1ea64a10" />
+
+Other Environments From Lower To Higher
+
+<img width="900" alt="image-61" src="https://github.com/user-attachments/assets/8e2d01ee-4b20-4768-8a2a-4b19eaf2298c" />
+
 What we want to achieve, is having Nginx to serve as a reverse proxy for our sites and tools. Each environment setup is represented in the below table and diagrams.
 
 <img width="900" alt="image-60" src="https://github.com/user-attachments/assets/2e6de0db-a732-4dc9-aae3-e81ec31043b9" />
@@ -182,12 +190,8 @@ For example, If there are variables we need to be common between both `pentest-t
 # 1. Install Jenkins
 
 Let's lunch a AWS ec2 with an Ubuntu OS instance and configure the jenkins server on it.
-CI Envirnoment
 
-<img width="900" alt="image-59" src="https://github.com/user-attachments/assets/30de1dcd-c239-4541-aec0-dcbe1ea64a10" />
 
-Other Environments From Lower To Higher
 
-<img width="900" alt="image-61" src="https://github.com/user-attachments/assets/8e2d01ee-4b20-4768-8a2a-4b19eaf2298c" />
 
 
