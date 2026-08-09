@@ -349,15 +349,13 @@ Push the new changes to GitHub
 3. To make your new branch show up in Jenkins, we need to tell Jenkins to scan the repository
 i. Click on the "Administration" button
 ii. Navigate to the Ansible project and click on "Scan repository now"
-
-
 iii. Refresh the page and both branches will start building automatically. You can go into Blue Ocean and see both branches there too.
 
-<img width="900" alt="main jenkins pipeline" src="https://github.com/user-attachments/assets/747d5152-5a69-43fa-8a76-d5e3b51956f5" />
+<img width="900" alt="main jenkins pipeline" src="https://github.com/user-attachments/assets/2fbc77d3-8676-4ce1-8a85-42f4deca1b25" />
 
 iv. In Blue Ocean, you can now see how the `Jenkinsfile` has caused a new step in the pipeline launch build for the new branch.
 
-<img width="900" alt="pipeline blue" src="https://github.com/user-attachments/assets/d5974673-197a-4586-9014-c32852feb82d" />
+<img width="900" alt="pipeline blue" src="https://github.com/user-attachments/assets/d701d51f-186c-4195-a538-74e296a9ab89" />
 
 ## A QUICK TASK
 
