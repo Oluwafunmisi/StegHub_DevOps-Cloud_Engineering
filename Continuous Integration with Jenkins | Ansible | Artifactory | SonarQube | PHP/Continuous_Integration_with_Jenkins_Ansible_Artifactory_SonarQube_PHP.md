@@ -81,6 +81,107 @@ What we want to achieve, is having Nginx to serve as a reverse proxy for our sit
 
 <img width="900" alt="image-60" src="https://github.com/user-attachments/assets/2e6de0db-a732-4dc9-aae3-e81ec31043b9" />
 
+## Project Description:
+
+In this project, we will be setting up a CI/CD Pipeline for a PHP based application. The overall CI/CD process looks like the architecture above.
+
+This project is architected in two major repositories with each repository containing its own CI/CD pipeline written in a Jenkinsfile
+
+- __ansible-config-mgt REPO__: This repository contains JenkinsFile which is responsible for setting up and configuring infrastructure required to carry out processes required for our application to run. It does this through the use of ansible roles. This repo is infrastructure specific
+
+- __PHP-todo REPO__: This repository contains jenkinsfile which is focused on processes which are application build specific such as building, linting, static code analysis, push to artifact repository etc.
+
+## Pre-requisites
+
+Will be making use of AWS virtual machines for this and will require 6 servers for the project which includes:
+
+__Nginx Server:__ This would act as the reverse proxy server to our site and tool.
+
+__Jenkins server:__ To be used to implement your CI/CD workflows or pipelines. Select a t3.medium at least, Ubuntu 24.04 and Security group should be open to port 8080
+
+__SonarQube server:__ To be used for Code quality analysis. Select a t3.medium at least, Ubuntu 24.04 and Security group should be open to port 9000
+
+__Artifactory server:__ To be used as the binary repository where the outcome of your build process is stored. Select a t2.medium at least and Security group should be open to port 8081
+
+__Database server:__ To server as the databse server for the Todo application
+
+__Todo webserver:__ To host the Todo web application.
+
+
+## Ansible Inventory should look like this
+
+```
+├── ci
+├── dev
+├── pentest
+├── pre-prod
+├── prod
+├── sit
+└── uat
+```
+
+ci inventory file
+
+```
+[jenkins]
+<Jenkins-Private-IP-Address>
+
+[nginx]
+<Nginx-Private-IP-Address>
+
+[sonarqube]
+<SonarQube-Private-IP-Address>
+
+[artifact_repository]
+<Artifact_repository-Private-IP-Address>
+```
+
+dev Inventory file
+
+```
+[tooling]
+<Tooling-Web-Server-Private-IP-Address>
+
+[todo]
+<Todo-Web-Server-Private-IP-Address>
+
+[nginx]
+<Nginx-Private-IP-Address>
+
+[db:vars]
+ansible_user=ec2-user
+ansible_python_interpreter=/usr/bin/python
+
+[db]
+<DB-Server-Private-IP-Address>
+```
+
+pentest inventory file
+
+```
+[pentest:children]
+pentest-todo
+pentest-tooling
+
+[pentest-todo]
+<Pentest-for-Todo-Private-IP-Address>
+
+[pentest-tooling]
+<Pentest-for-Tooling-Private-IP-Address>
+```
+
+Observations:
+
+1. You will notice that in the pentest inventory file, we have introduced a new concept `pentest:children` This is because, we want to have a group called pentest which covers Ansible execution against both `pentest-todo` and `pentest-tooling` simultaneously. But at the same time, we want the flexibility to run specific Ansible tasks against an individual group.
+2. The `db` group has a slightly different configuration. It uses a RedHat/Centos Linux distro. Others are based on Ubuntu (in this case user is `ubuntu`). Therefore, the user required for connectivity and path to python interpreter are different. If all your environment is based on Ubuntu, you may not need this kind of set up. Totally up to you how you want to do this. Whatever works for you is absolutely fine in this scenario.
+
+This makes us to introduce another Ansible concept called `group_vars`. With group vars, we can declare and set variables for each group of servers created in the inventory file.
+
+For example, If there are variables we need to be common between both `pentest-todo` and `pentest-tooling`, rather than setting these variables in many places, we can simply use the `group_vars` for pentest. Since in the inventory file it has been created as `pentest:children` Ansible recognizes this and simply applies that variable to both children.
+
+# 1. Install Jenkins
+
+Let's lunch a AWS ec2 with an Ubuntu OS instance and configure the jenkins server on it.
 CI Envirnoment
 
 <img width="900" alt="image-59" src="https://github.com/user-attachments/assets/30de1dcd-c239-4541-aec0-dcbe1ea64a10" />
