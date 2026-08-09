@@ -353,11 +353,11 @@ ii. Navigate to the Ansible project and click on "Scan repository now"
 
 iii. Refresh the page and both branches will start building automatically. You can go into Blue Ocean and see both branches there too.
 
-<img width="900" alt="main jenkins pipeline" src="https://github.com/user-attachments/assets/fef4feaa-c39a-42b8-98ad-df650eea0717" />
+<img width="900" alt="main jenkins pipeline" src="https://github.com/user-attachments/assets/747d5152-5a69-43fa-8a76-d5e3b51956f5" />
 
 iv. In Blue Ocean, you can now see how the `Jenkinsfile` has caused a new step in the pipeline launch build for the new branch.
 
-<img width="900" alt="pipeline blue" src="https://github.com/user-attachments/assets/d53cfe19-b850-45ae-8cd7-37386b6ecdfb" />
+<img width="900" alt="pipeline blue" src="https://github.com/user-attachments/assets/d5974673-197a-4586-9014-c32852feb82d" />
 
 ## A QUICK TASK
 
