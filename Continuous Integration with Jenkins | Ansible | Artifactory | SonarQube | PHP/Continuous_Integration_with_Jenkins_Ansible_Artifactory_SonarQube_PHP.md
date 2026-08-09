@@ -53,13 +53,11 @@ Before we move on to observability metrics - let us list down the principles tha
 
 It might be common after a deployment to see major changes in the usage of specific SQL queries, web service or HTTP calls, and other application dependencies. These monitoring tools can provide valuable visualizations like this one below that helps make it easy to spot problems.
 
-
 12. __Mean time to detection (MTTD):__ When problems happen, it is important that we identify them quickly. The last thing we want is to have a major partial or complete system outage and not know about it. Having robust application monitoring and good observability tools in place will help us detect issues quickly. Once they are detected, we also must fix them quickly!
 
 13. __Mean time to recovery (MTTR):__ This metric helps us track how long it takes to recover from failures. A key metric for the business is keeping failures to a minimum and being able to recover from them quickly. It is typically measured in hours and may refer to business hours, not calendar hours.
 
 These are the major metrics that any DevOps team should track and monitor to understand how well CI/CD process is established and how it helps to deliver quality application to the users.
-
 
 ## Simulating a typical CI/CD Pipeline for a PHP Based application
 
@@ -77,6 +75,10 @@ To get started, we will focus on these environments initially.
 - Dev
 - Pentest
 
+What we want to achieve, is having Nginx to serve as a reverse proxy for our sites and tools. Each environment setup is represented in the below table and diagrams.
+
+<img width="900" alt="image-60" src="https://github.com/user-attachments/assets/2e6de0db-a732-4dc9-aae3-e81ec31043b9" />
+
 CI Envirnoment
 
 <img width="900" alt="image-59" src="https://github.com/user-attachments/assets/30de1dcd-c239-4541-aec0-dcbe1ea64a10" />
@@ -84,10 +86,6 @@ CI Envirnoment
 Other Environments From Lower To Higher
 
 <img width="900" alt="image-61" src="https://github.com/user-attachments/assets/8e2d01ee-4b20-4768-8a2a-4b19eaf2298c" />
-
-What we want to achieve, is having Nginx to serve as a reverse proxy for our sites and tools. Each environment setup is represented in the below table and diagrams.
-
-<img width="900" alt="image-60" src="https://github.com/user-attachments/assets/2e6de0db-a732-4dc9-aae3-e81ec31043b9" />
 
 ## Project Description:
 
@@ -181,6 +179,7 @@ pentest-tooling
 Observations:
 
 1. You will notice that in the pentest inventory file, we have introduced a new concept `pentest:children` This is because, we want to have a group called pentest which covers Ansible execution against both `pentest-todo` and `pentest-tooling` simultaneously. But at the same time, we want the flexibility to run specific Ansible tasks against an individual group.
+   
 2. The `db` group has a slightly different configuration. It uses a RedHat/Centos Linux distro. Others are based on Ubuntu (in this case user is `ubuntu`). Therefore, the user required for connectivity and path to python interpreter are different. If all your environment is based on Ubuntu, you may not need this kind of set up. Totally up to you how you want to do this. Whatever works for you is absolutely fine in this scenario.
 
 This makes us to introduce another Ansible concept called `group_vars`. With group vars, we can declare and set variables for each group of servers created in the inventory file.
