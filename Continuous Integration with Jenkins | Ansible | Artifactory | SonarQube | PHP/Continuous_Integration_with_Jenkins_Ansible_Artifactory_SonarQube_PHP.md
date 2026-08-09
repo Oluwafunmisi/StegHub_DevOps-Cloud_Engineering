@@ -240,3 +240,24 @@ Follow the navigation below :
 
 - Go to manage jenkins > manage plugins > available
 - Search for BLUE OCEAN PLUGIN and install
+
+<img width="900" alt="blue ocean" src="https://github.com/user-attachments/assets/727f79a2-8d76-4973-8218-aabf105026f9" />
+
+## Configure blue ocean pipeline with git repo
+
+Follow the steps below:
+
+- Click "Open blue oceans" plugin and create a new pipeline
+
+<img width="900" alt="jenkins pipeline" src="https://github.com/user-attachments/assets/f0e86150-23d9-4883-ba0e-4994f4c7a931" />
+
+- Select github
+- Connect github with jenkins using your github personal access token
+
+<img width="900" alt="connect git" src="https://github.com/user-attachments/assets/e3d920b2-d115-4331-bd9d-cf2703bdf0bf" />
+
+- Select the repository
+- Create the pipeline
+Here is our newly created pipeline. It takes the name of your GitHub repository.
+
+<img width="900" alt="pipeline created" src="https://github.com/user-attachments/assets/178ac70e-c312-466f-a21a-cfafa82ddb41" />
