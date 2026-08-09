@@ -369,3 +369,17 @@ Merge the PR
 3. Pull the latest change.
 
 <img width="900" alt="gp main" src="https://github.com/user-attachments/assets/3cd7dfb5-4e96-4133-a833-06e7ccecb551" />
+
+4. Create a new branch, add more stages into the Jenkins file to simulate below phases. (Just add an `echo` command like we have in `build` and `test` stages)
+   1. Package
+   2. Deploy
+   3. Clean up
+  
+<img width="900" alt="task" src="https://github.com/user-attachments/assets/2e355946-95bf-44cf-89cc-c7d713da0374" />
+
+5. Verify in Blue Ocean that all the stages are working, then merge your feature branch to the main branch
+
+6. Eventually, your main branch should have a successful pipeline like this in blue ocean
+
+<img width="900" alt="test clean up" src="https://github.com/user-attachments/assets/a78a258c-09e7-4de8-98a4-72ba978be9eb" />
+
