@@ -190,7 +190,45 @@ For example, If there are variables we need to be common between both `pentest-t
 
 Let's lunch a AWS ec2 with an Ubuntu OS instance and configure the jenkins server on it.
 
+<img width="900" alt="jenkins instance" src="https://github.com/user-attachments/assets/1cdf6345-b27b-41b6-b5c9-47a53d8b3933" />
 
+#### Install jenkins and it's dependencies using the terminal.
 
+```
+sudo apt-get update  # Update the instance
+sudo apt upgrade -y
 
+# Jenkins requires Java. For current Jenkins releases, install Java 17:
+sudo apt update
+sudo apt install fontconfig openjdk-21-jre -y
+
+#Add the Jenkins repository key
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+
+# Add the Jenkins repository
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | \
+sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+# Install Jenkins
+sudo apt update
+sudo apt install jenkins -y
+
+# Start Jenkins
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+
+# Check Jenkins status
+sudo systemctl status jenkins
+
+# Get the initial Jenkins password
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+# Copy the password.
+
+```
+<img width="900" alt="jenkins install" src="https://github.com/user-attachments/assets/82de7c66-e0bb-445d-8546-de7f4f15e846" />
+
+#### Open TCP port 8080
+
+<img width="900" alt="8080" src="https://github.com/user-attachments/assets/d6ef75d7-ebf5-4e09-b3ee-c28a6f758592" />
 
