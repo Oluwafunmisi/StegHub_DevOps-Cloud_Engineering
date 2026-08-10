@@ -309,8 +309,6 @@ To really appreciate and feel the difference of Cloud Blue UI, it is recommended
 
 <img width="900" alt="first build" src="https://github.com/user-attachments/assets/e41cf47d-0389-4485-a560-71755dfdd9fe" />
 
-<img width="900" alt="build 1" src="https://github.com/user-attachments/assets/c46bc642-2a24-4c20-8bfe-b85f06306e9c" />
-
 ### Let us see this in action.
 
 1. Create a new git branch and name it `feature/jenkinspipeline-stages`
