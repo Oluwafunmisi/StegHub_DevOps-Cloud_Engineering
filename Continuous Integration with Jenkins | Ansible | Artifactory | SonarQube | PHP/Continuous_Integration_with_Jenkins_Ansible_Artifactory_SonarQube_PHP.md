@@ -381,3 +381,118 @@ Merge the PR
 
 <img width="900" alt="test clean up" src="https://github.com/user-attachments/assets/a78a258c-09e7-4de8-98a4-72ba978be9eb" />
 
+# Running Ansible Playbook from Jenkins
+
+Now that you have a broad overview of a typical Jenkins pipeline. Let us get the actual Ansible deployment to work by:
+
+1. Installing Ansible on Jenkins
+
+```
+sudo apt update
+
+sudo apt install ansible
+
+ansible --version
+```
+<img width="900" alt="install ansible" src="https://github.com/user-attachments/assets/e6efebec-3c4c-41a5-8ad0-09be8fbae9a7" />
+
+2. Installing Ansible plugin in Jenkins UI
+
+<img width="900" alt="ansible plugin" src="https://github.com/user-attachments/assets/a9024dcf-fd90-4e56-8eb8-fb6df1a5548e" />
+
+3. Creating `Jenkinsfile` from scratch. (Delete all you currently have in there and start all over to get Ansible to run successfully)
+
+```
+pipeline {
+    agent any
+
+    parameters {
+        string(
+            name: 'inventory',
+            defaultValue: 'dev',
+            description: 'This is the inventory file for the environment to deploy configuration'
+        )
+    }
+
+    stages {
+        stage('Configure Ansible') {
+            steps {
+                sh '''
+                    sed -i "s|roles_path = .*|roles_path = ${WORKSPACE}/roles|" ${WORKSPACE}/deploy/.ansible.cfg
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    export ANSIBLE_CONFIG=${WORKSPACE}/deploy/.ansible.cfg
+                    ansible-playbook -i inventory/${inventory}.yml playbooks/site.yml -e "env=${inventory}"
+                '''
+            }
+        }
+    }
+}
+```
+<img width="900" alt="jenkins update" src="https://github.com/user-attachments/assets/3ab5579c-5a5a-4321-bfb5-b21584e88d2e" />
+
+## Note: Ensure that Ansible runs against the Dev environment successfully.
+
+__Possible errors to watch out for:__
+
+1. Ensure that the git module in Jenkinsfile is checking out SCM to `main` branch instead of `master` (GitHub has discontinued the use of Master due to Black Lives Matter. You can read more here)
+
+2. Jenkins needs to export the ANSIBLE_CONFIG environment variable. You can put the .ansible.cfg file alongside Jenkinsfile in the deploy directory. This way, anyone can easily identify that everything in there relates to deployment. Then, using the Pipeline Syntax tool in Ansible, generate the syntax to create environment variables to set. https://wiki.jenkins.io/display/JENKINS/Building+a+software+project
+
+
+__Possible issues to watch out for when you implement this__
+
+1. Remember that ansible.cfg must be exported to environment variable so that Ansible knows where to find Roles. But because you will possibly run Jenkins from different git branches, the location of Ansible roles will change. Therefore, you must handle this dynamically. You can use Linux Stream Editor sed to update the section roles_path each time there is an execution. You may not have this issue if you run only from the main branch.
+
+2. If you push new changes to Git so that Jenkins failure can be fixed. You might observe that your change may sometimes have no effect. Even though your change is the actual fix required. This can be because Jenkins did not download the latest code from GitHub. Ensure that you start the Jenkinsfile with a clean up step to always delete the previous workspace before running a new one. Sometimes you might need to login to the Jenkins Linux server to verify the files in the workspace to confirm that what you are actually expecting is there. Otherwise, you can spend hours trying to figure out why Jenkins is still failing, when you have pushed up possible changes to fix the error.
+
+3. Another possible reason for Jenkins failure sometimes, is because you have indicated in the `Jenkinsfile` to check out the `main` git branch, and you are running a pipeline from another branch. So, always verify by logging onto the Jenkins box to check the workspace, and run `git branch` command to confirm that the branch you are expecting is there.
+
+If everything goes well for you, it means, the `Dev` environment has an up-to-date configuration.
+
+To deploy to other environments, we will need to use parameters.
+
+1. Update `sit` inventory with new servers (`inventory/sit.yml`)
+
+```
+[tooling]
+<SIT-Tooling-Web-Server-Private-IP-Address>
+
+[todo]
+<SIT-Todo-Web-Server-Private-IP-Address>
+
+[nginx]
+<SIT-Nginx-Private-IP-Address>
+
+[db:vars]
+ansible_user=ec2-user
+ansible_python_interpreter=/usr/bin/python
+
+[db]
+<SIT-DB-Server-Private-IP-Address>
+```
+<img width="900" alt="inventory sit" src="https://github.com/user-attachments/assets/af3af9e3-a0b9-4174-be3e-c8a1e946dba3" />
+
+2. Update Jenkinsfile to introduce parameterization. Below is just one parameter. It has a default value in case if no value is specified at execution.
+
+```
+pipeline {
+    agent any
+
+    parameters {
+      string(name: 'inventory', defaultValue: 'dev',  description: 'This is the inventory file for the environment to deploy configuration')
+    }
+
+```
+<img width="900" alt="parameters" src="https://github.com/user-attachments/assets/9ae4da35-7944-4171-a9fb-ef0c18cf3026" />
+
+3. In the Ansible execution section, remove the hardcoded inventory/dev and replace with `${inventory}
+
+- Notice the `Build Now` has changed to `Build with Parameters` and this enables us to run differenet environment easily.
+The default value loads up, but we can now specify which environment we want to deploy the configuration to. Simply type sit and hit Run
+
