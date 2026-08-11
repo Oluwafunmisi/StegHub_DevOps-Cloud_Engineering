@@ -425,16 +425,31 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh '''
-                    export ANSIBLE_CONFIG=${WORKSPACE}/deploy/.ansible.cfg
-                    ansible-playbook -i inventory/${inventory}.yml playbooks/site.yml -e "env=${inventory}"
-                '''
+                withCredentials([
+                    sshUserPrivateKey(
+                        credentialsId: 'ansible-sit-key',
+                        keyFileVariable: 'SSH_KEY',
+                        usernameVariable: 'SSH_USER'
+                    )
+                ]) {
+                    sh '''
+                        export ANSIBLE_CONFIG=${WORKSPACE}/deploy/.ansible.cfg
+
+                        ansible-playbook \
+                          -i inventory/${inventory}.yml \
+                          playbooks/site.yml \
+                          -e env=${inventory} \
+                          -e ansible_user=${SSH_USER} \
+                          -e ansible_ssh_private_key_file=${SSH_KEY}
+                    '''
+                }
             }
         }
     }
 }
 ```
-<img width="900" alt="jenkins update" src="https://github.com/user-attachments/assets/3ab5579c-5a5a-4321-bfb5-b21584e88d2e" />
+
+<img width="900" alt="jenkins update" src="https://github.com/user-attachments/assets/e1c22eb3-448f-4cbc-89cd-b10bbe5c1a36" />
 
 ## Note: Ensure that Ansible runs against the Dev environment successfully.
 
@@ -454,6 +469,29 @@ __Possible issues to watch out for when you implement this__
 3. Another possible reason for Jenkins failure sometimes, is because you have indicated in the `Jenkinsfile` to check out the `main` git branch, and you are running a pipeline from another branch. So, always verify by logging onto the Jenkins box to check the workspace, and run `git branch` command to confirm that the branch you are expecting is there.
 
 If everything goes well for you, it means, the `Dev` environment has an up-to-date configuration.
+
+## Configure ansible on Jenkins
+
+Click on Dashboard > Manage Jenkins > Global Tool Configuration > Add Ansible. Add a name and the path ansible is installed on the jenkins server.
+
+<img width="900" alt="which ansible" src="https://github.com/user-attachments/assets/500ef1dd-d436-435c-9681-efd8fef6025c" />
+
+<img width="900" alt="ansible installation" src="https://github.com/user-attachments/assets/23ed4b2f-2725-4ceb-9bbe-3260c6e6f741" />
+
+### To ensure jenkins properly connects to all servers, install another plugin called `ssh agent`
+
+<img width="900" alt="ssh agent" src="https://github.com/user-attachments/assets/67fb599c-6837-4c45-bb22-c5fd2e53dc41" />
+
+### Then go to `manage jenkins > credentials > global > add credentials`
+Then follow the steps below:
+
+- Kind: SSH Username with private key
+- Scope: Global (Jenkins, nodes, items, all child items, etc)
+-	ID: ansible-sit-key (or any ID you prefer)
+-	Username: Leave it blank or set a default value (e.g., defaultuser) # This is because we are using servers of different username i.e ubuntu and ec2-user. This value won’t be used because the actual usernames will be specified in the Ansible inventory file.
+-	Private Key: Enter the private key directly
+
+<img width="900" alt="ssh add" src="https://github.com/user-attachments/assets/31f4d009-54a5-474f-98dc-5166cf0c56fd" />
 
 To deploy to other environments, we will need to use parameters.
 
@@ -489,10 +527,78 @@ pipeline {
     }
 
 ```
-<img width="900" alt="parameters" src="https://github.com/user-attachments/assets/9ae4da35-7944-4171-a9fb-ef0c18cf3026" />
+<img width="900" alt="parameters" src="https://github.com/user-attachments/assets/ac7c222c-ba1a-48ec-a9fe-dca8e3ff14f2" />
 
 3. In the Ansible execution section, remove the hardcoded inventory/dev and replace with `${inventory}
+
+- Notice the `Build Now` has changed to `Build with Parameters` and this enables us to run different environment easily.
+The default value loads up, but we can now specify which environment we want to deploy the configuration to. Simply type sit and hit Run
+
+<img width="900" alt="invent" src="https://github.com/user-attachments/assets/7584ea0c-80b4-4562-871c-ea59e05553b1" />
 
 - Notice the `Build Now` has changed to `Build with Parameters` and this enables us to run differenet environment easily.
 The default value loads up, but we can now specify which environment we want to deploy the configuration to. Simply type sit and hit Run
 
+<img width="900" alt="bwp" src="https://github.com/user-attachments/assets/0c72c5d4-7de9-4446-be5e-e61eb369f7f0" />
+
+- View it from Blue Ocean
+
+<img width="900" alt="blue bwp" src="https://github.com/user-attachments/assets/f4cf725b-6135-4714-a669-b30d328ff209" />
+
+# CI/CD Pipline for TODO Application
+
+We already have `tooling` website as a part of deployment through Ansible. Here we will introduce another PHP application to add to the list of software products we are managing in our infrastructure. The good thing with this particular application is that it has unit tests, and it is an ideal application to show an end-to-end CI/CD pipeline for a particular application.
+
+# Phase 1 – Prepare Jenkins
+
+## 1. Fork the repository below into your GitHub account
+
+```
+https://github.com/StegTechHub/php-todo.git
+```
+<img width="900" alt="forked" src="https://github.com/user-attachments/assets/afc0a5f0-d5b3-455d-ae13-75e166cb58bb" />
+
+## 2. On your Jenkins server, install PHP, its dependencies and Composer tool (Feel free to do this manually at first, then update your Ansible accordingly later)
+
+```
+sudo apt update
+
+sudo apt install -y \
+  php-cli \
+  php-xml \
+  php-bcmath \
+  php-bz2 \
+  php-intl \
+  php-gd \
+  php-mbstring \
+  php-mysql \
+  php-zip \
+  zip \
+  unzip \
+  libapache2-mod-php \
+  phploc \
+  composer
+
+# Verify Installation version
+php -v
+composer --version
+phploc --version
+```
+<img width="900" alt="dependencies" src="https://github.com/user-attachments/assets/f07c4a9b-1fec-4274-a91e-c8fe7b35900b" />
+
+## 3. Install Jenkins plugins
+
+- Plot plugin
+
+<img width="900"  alt="plot" src="https://github.com/user-attachments/assets/97c0f7f7-c854-4e6e-8345-f3b2ba351268" />
+
+- Artifactory plugin
+
+<img width="900" alt="artifactory" src="https://github.com/user-attachments/assets/a3f0c3cf-6791-4fd9-8869-9d9f68178246" />
+
+- We will use plot plugin to display tests reports, and code coverage information.
+- The Artifactory plugin will be used to easily upload code artifacts into an Artifactory server.
+
+## 4. In Jenkins UI configure Artifactory
+
+- Configure the server ID, URL and Credentials, run Test Connection.
