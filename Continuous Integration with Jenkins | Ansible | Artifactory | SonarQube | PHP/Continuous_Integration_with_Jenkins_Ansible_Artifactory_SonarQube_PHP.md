@@ -601,4 +601,23 @@ phploc --version
 
 ## 4. In Jenkins UI configure Artifactory
 
+Install Jfrog artifactory on Artifactory server
+
+```
+sudo apt update
+
+sudo apt install -y wget curl gnupg
+
+echo "deb https://releases.jfrog.io/artifactory/artifactory-debs noble main" | sudo tee /etc/apt/sources.list.d/artifactory.list
+
+sudo apt install -y jfrog-artifactory-oss
+
+sudo systemctl start artifactory.service
+
+sudo systemctl status artifactory --no-pager
+
+
+curl -I http://localhost:8081
+```
+
 - Configure the server ID, URL and Credentials, run Test Connection.
