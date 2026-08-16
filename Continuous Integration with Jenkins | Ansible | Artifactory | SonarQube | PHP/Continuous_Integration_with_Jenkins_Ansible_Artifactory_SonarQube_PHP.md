@@ -545,11 +545,63 @@ The default value loads up, but we can now specify which environment we want to 
 
 <img width="900" alt="blue bwp" src="https://github.com/user-attachments/assets/f4cf725b-6135-4714-a669-b30d328ff209" />
 
+4. Add another parameter. This time, introduce tagging in Ansible. You can limit the Ansible execution to a specific role or playbook desired. Therefore, add an Ansible tag to run against `webserver` only. Test this locally first to get the experience. Once you understand this, update `Jenkinsfile` and run it from Jenkins.
+
+- Update `playbook/site.yml` with tags
+
+<img width="900" alt="playbooks site" src="https://github.com/user-attachments/assets/c2b33852-074a-4e70-8ca4-d73230a05384" />
+
+- Add another parameter to the jenkinsfile. Name the parameter `ansible_tags` and the default value `webserver`
+
+```
+    string(
+        name: 'ansible_tags',
+        defaultValue: 'webserver',
+        description: 'Ansible tags to run specific roles or tasks'
+    )
+```
+<img width="900" alt="jenkins ansible tag" src="https://github.com/user-attachments/assets/d377aefc-8492-47c3-a23e-cdeaf5313b06" />
+
+- Update the Ansible execution section to prompt for tag
+
+<img width="900" alt="tag prompt" src="https://github.com/user-attachments/assets/9e9da3c5-cec7-4789-b008-dd100c40abe4" />
+
+- Click on the play button and update the inventory field to `sit` and the ansible_tags to `webserver`
+
+<img width="900" alt="sit web" src="https://github.com/user-attachments/assets/dae33c25-0db8-41b0-acb5-7e463c69816d" />
+
+- Click on `Run` to build
+
+<img width="900" alt="b1" src="https://github.com/user-attachments/assets/b85fcf7a-6050-426c-b974-2e84ecd8848a" />
+<img width="900"  alt="b2" src="https://github.com/user-attachments/assets/9ba302b8-709d-491a-b948-c33166c46ed3" />
+<img width="900"  alt="b3" src="https://github.com/user-attachments/assets/b086316e-0663-4f7f-befb-098c067bcbd1" />
+
+
 # CI/CD Pipline for TODO Application
 
 We already have `tooling` website as a part of deployment through Ansible. Here we will introduce another PHP application to add to the list of software products we are managing in our infrastructure. The good thing with this particular application is that it has unit tests, and it is an ideal application to show an end-to-end CI/CD pipeline for a particular application.
 
 # Phase 1 – Prepare Jenkins
+
+Ensure Port 8082 is opened on artifactory server.
+
+### Install Artifactory role using Ansible galaxy collection
+
+```
+ansible-galaxy collection install jfrog.platform
+```
+
+<img width="900" alt="main" src="https://github.com/user-attachments/assets/bd492873-f36c-4754-a6f4-e4e04fd82f09" />
+
+### Update Artifactory role in `roles/artifactory/tasks/main.yml` to install jfrog Artifactory
+
+<img width="900"  alt="artifactory yml" src="https://github.com/user-attachments/assets/4cf59adb-eb7d-4b09-bfc9-61da9d390d3b" />
+
+- Update `inventory/dev.yml`
+
+<img width="900" alt="dev inv" src="https://github.com/user-attachments/assets/5b1b3698-5198-4b7c-a373-18a51c13d696" />
+
+### Run the playbook against dev.yml to install `jfrog artifactory`
 
 ## 1. Fork the repository below into your GitHub account
 
